@@ -43,7 +43,7 @@ const useStyles = makeStyles( () => ({
     padding: 20,
     background: 'rgba(5,5,5,0.8)',
     width: '100%',
-    height: '64.5%',
+    height: '63%',
     color: 'white',
     top: 0,
     left: 0,
@@ -60,6 +60,10 @@ const useStyles = makeStyles( () => ({
     backgroundColor: 'white',
     color: '#693fd3'
   },
+  link: {
+    textDecoration: 'none',
+    color: 'grey'
+  }
   }));
 
 const Route = (props) => {
@@ -72,29 +76,26 @@ const Route = (props) => {
     };
 
     return (
+
         <Card className={classes.card}>
-        <CardActionArea>
-            <CardMedia className={classes.cardMedia}>
+          <CardActionArea>
+            <NavLink className={classes.link} exact to={`/route?id=${props.route.id}`}>
+              <CardMedia className={classes.cardMedia}>
                 <img className={classes.routeImage} src= {props.route.image} alt="route"></img>
-                <Typography className={classes.cardDescription}>{props.route.description}</Typography>
-                <CardActions className={classes.cardActions}>
-                    <NavLink exact to={`/route?id=${props.route.id}`}>
-                    <IconButton className={classes.cardButton} size="small">
-                        <EditIcon />
-                    </IconButton>
-                    </NavLink>
-                    <IconButton className={classes.cardButton} onClick={deleteBtn} size="small">
-                        <DeleteIcon />
-                    </IconButton>
-                </CardActions>
-            </CardMedia>
-            <CardContent>
+                <Typography className={classes.cardDescription}>{props.route.description}</Typography> 
+              </CardMedia>
+              <CardContent>
                 <Typography ><MapIcon className={classes.cardIcons}/>{props.route.routeName}</Typography>
                 <Typography ><RoomIcon className={classes.cardIcons}/>{props.route.district}</Typography>
                 <Typography ><AssistantPhotoIcon className={classes.cardIcons}/>{props.route.challengesAmount}</Typography>
-            </CardContent>
-        </CardActionArea>
-        
+              </CardContent>
+            </NavLink>
+            <CardActions className={classes.cardActions}>
+              <IconButton className={classes.cardButton} onClick={deleteBtn} size="small">
+                <DeleteIcon />
+                  </IconButton>
+            </CardActions>
+        </CardActionArea>   
       </Card>
     );
   }

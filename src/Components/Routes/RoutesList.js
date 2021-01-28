@@ -38,7 +38,6 @@ const useStyles = makeStyles( () => ({
     borderRadius: '8px',
     border: `1px solid #693fd3`,
     background: '#693fd3',
-    fontWeight: 'bold',
     textTransform: 'none',
   },
   clearFilter: {
@@ -47,7 +46,6 @@ const useStyles = makeStyles( () => ({
     marginRight: '10px',
     border: `1px solid #693fd3`,
     background: '#693fd3',
-    fontWeight: 'bold',
     textTransform: 'none',
   },
   addRoute: {
