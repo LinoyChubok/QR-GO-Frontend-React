@@ -16,7 +16,7 @@ body {
 /* ////////////// */
 
 #main {
-  height: 100vh;
+  height: 110vh;
   background-attachment: fixed;
 }
 
@@ -52,7 +52,7 @@ body {
    	width: 20%;
 	background-position: bottom;
 	left: 50%;
-	top: 68%;
+	top: 70%;
 	transform: translate(-50%, 50%);
  }
 

@@ -13,6 +13,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import RoomIcon from '@material-ui/icons/Room';
 import MapIcon from '@material-ui/icons/Map';
 import AssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
+import { NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles( () => ({
   card: {
@@ -64,6 +65,12 @@ const useStyles = makeStyles( () => ({
 const Route = (props) => {
     const classes = useStyles();
 
+    const deleteBtn = () => {
+      console.log(props.route.id)
+
+      props.onClickDeleteBtn(props.route.id);
+    };
+
     return (
         <Card className={classes.card}>
         <CardActionArea>
@@ -71,10 +78,12 @@ const Route = (props) => {
                 <img className={classes.routeImage} src= {props.route.image} alt="route"></img>
                 <Typography className={classes.cardDescription}>{props.route.description}</Typography>
                 <CardActions className={classes.cardActions}>
-                    <IconButton size="small" className={classes.cardButton}>
+                    <NavLink exact to={`/route?id=${props.route.id}`}>
+                    <IconButton className={classes.cardButton} size="small">
                         <EditIcon />
                     </IconButton>
-                    <IconButton size="small"className={classes.cardButton}>
+                    </NavLink>
+                    <IconButton className={classes.cardButton} onClick={deleteBtn} size="small">
                         <DeleteIcon />
                     </IconButton>
                 </CardActions>
@@ -89,4 +98,4 @@ const Route = (props) => {
       </Card>
     );
   }
-  export default Route
+  export default Route;

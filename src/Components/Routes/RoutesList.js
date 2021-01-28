@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Route from './Route'
 import Button from '@material-ui/core/Button';
@@ -28,14 +29,25 @@ const useStyles = makeStyles( () => ({
     paddingTop: '80px',
 	  paddingBottom: '30px',
   },
+  actionButtons: {
+    position: 'absolute',
+    right: '20px',
+  },
   selectDistrict: {
     color: '#ffffff',
     borderRadius: '8px',
     border: `1px solid #693fd3`,
     background: '#693fd3',
     fontWeight: 'bold',
-    position: 'absolute',
-    right: '20px',
+    textTransform: 'none',
+  },
+  clearFilter: {
+    color: '#ffffff',
+    borderRadius: '8px',
+    marginRight: '10px',
+    border: `1px solid #693fd3`,
+    background: '#693fd3',
+    fontWeight: 'bold',
     textTransform: 'none',
   },
   addRoute: {
@@ -52,20 +64,20 @@ const RoutesList = (props) => {
   const classes = useStyles();
   const [routes, setRoutes] = useState([]);
 
-  useEffect(() => {
-    let data =[];
-    const fetchData = async () => {
-      try {
-        data = await fetch("https://qr-go.herokuapp.com/api/routes").then(res => res.json());
-      } catch(err) {
-        console.log("error where fetching data");
-      }
-      console.log(data);
-      data.routes.map(route => add({id: route._id, routeName: route.routeName, district: route.district, image: route.image, description: route.description, challengesAmount: route.challengesAmount}))
-    }
+  useEffect(() => { 
     fetchData();
-
   }, []);
+
+  const fetchData = async () => {
+    let data =[];
+    try {
+      data = await fetch("https://qr-go.herokuapp.com/api/routes").then(res => res.json());
+    } catch(err) {
+      console.log("error where fetching data");
+    }
+    console.log(data);
+    data.routes.map(route => add({id: route._id, routeName: route.routeName, district: route.district, image: route.image, description: route.description, challengesAmount: route.challengesAmount}))
+  }
 
   const nextId = (transports = []) => {    
     let max = transports.reduce((prev, curr) => prev.id > curr.id ? prev.id : curr.id , 0);
@@ -96,35 +108,57 @@ const RoutesList = (props) => {
       filteredData.routes.map(route => add({id: route._id, routeName: route.routeName, district: route.district, image: route.image, description: route.description, challengesAmount: route.challengesAmount}))
     }
 
+    const deleteRoute = async (id) => {
+      let result;
+      try {
+        result = await fetch(`https://qr-go.herokuapp.com/api/routes/${id}`, {method: 'DELETE'}).then(res => res.json());
+      } catch(err) {
+        console.log("error where fetching data");
+      }
+      console.log(result);
+
+      setRoutes(prevState => (
+        prevState.filter((route, i) => route.id !== id)
+      ))
+    }
+
+    const clearFilter = () => {
+      setRoutes([]);
+      fetchData();
+    }
+
     const eachRoute = (item, index) => {
         return  (<Route key={item.id} index={index} route={item}
-                  onClickEditBtn={props.getTransport} onClickDeleteBtn={props.deleteTransport}>                
+                  onClickDeleteBtn={deleteRoute}>                
                 </Route>)
       };
 
-      const districts = [ {value: "Northern District"}, {value: "Haifa District"}, {value: "Central District"},
-                          {value: "Tel Aviv District"}, {value: "Jerusalem District"}, {value: "Southern District"} ];
+    const districts = [ {value: "Northern District"}, {value: "Haifa District"}, {value: "Central District"},
+                        {value: "Tel Aviv District"}, {value: "Jerusalem District"}, {value: "Southern District"} ];
 
-      return( 
-                <div className={classes.routesList}>
-                  <PopupState variant="popover" popupId="demo-popup-menu">
-                    {(popupState) => (
-                      <React.Fragment>
+    return( 
+              <div className={classes.routesList}>
+                <PopupState variant="popover" popupId="demo-popup-menu">
+                  {(popupState) => (
+                    <React.Fragment>
+                      <div className={classes.actionButtons}>
+                        <Button className={classes.clearFilter} onClick={clearFilter} variant="contained">Clear</Button>
                         <Button className={classes.selectDistrict} variant="contained" {...bindTrigger(popupState)}>Select District<ArrowDropDownIcon/></Button>
-                        <Menu  {...bindMenu(popupState)}>
-                        {districts.map((option) => (
-                          <MenuItem value={option.value} onClick={() => {getAllRoutesByFilter(option.value);  popupState.close();}}> {option.value} </MenuItem>
-                        ))}
-                        </Menu>                      
-                      </React.Fragment>
-                    )}
-                  </PopupState>
-                  <div className={classes.routesContainer}>
-                    { routes.map(eachRoute) }
-                  </div>
-                  <AddCircleIcon className={classes.addRoute}/>
+                      </div>
+                      <Menu {...bindMenu(popupState)}>
+                      {districts.map((option) => (
+                        <MenuItem value={option.value} onClick={() => {getAllRoutesByFilter(option.value);  popupState.close();}}> {option.value} </MenuItem>
+                      ))}
+                      </Menu>                      
+                    </React.Fragment>
+                  )}
+                </PopupState>
+                <div className={classes.routesContainer}>
+                  { routes.map(eachRoute) }
                 </div>
-              
-      );   
+                <AddCircleIcon className={classes.addRoute}/>
+              </div>
+            
+    );   
   }
   export default RoutesList;

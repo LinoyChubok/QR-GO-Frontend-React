@@ -23,13 +23,10 @@ const App = ( {children, isAuthed} ) => {
       SetBgColor('linear-gradient( #693fd3, #693fd3,#4822a7, #4822a7)');
       SetIsAuth(false);
     }
-    else if(currentPath === "/routes"){
+    else {
       SetBgColor('#f2edf3');
       SetIsAuth(true);
     }    
-    console.log(currentPath);
-
-
   }, [location.pathname]);
 
 
