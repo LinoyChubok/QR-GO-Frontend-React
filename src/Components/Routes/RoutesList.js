@@ -9,6 +9,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import { NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles( () => ({
   routesList: {
@@ -154,7 +155,10 @@ const RoutesList = (props) => {
                 <div className={classes.routesContainer}>
                   { routes.map(eachRoute) }
                 </div>
-                <AddCircleIcon className={classes.addRoute}/>
+                <NavLink className={classes.link} exact to={`/route`}>
+                  <AddCircleIcon className={classes.addRoute}/>
+                </NavLink>
+
               </div>
             
     );   

@@ -8,7 +8,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 
 import IconButton from '@material-ui/core/Fab';
-import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import RoomIcon from '@material-ui/icons/Room';
 import MapIcon from '@material-ui/icons/Map';
