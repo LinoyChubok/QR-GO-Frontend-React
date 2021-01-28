@@ -69,8 +69,6 @@ const Route = (props) => {
     const classes = useStyles();
 
     const deleteBtn = () => {
-      console.log(props.route.id)
-
       props.onClickDeleteBtn(props.route.id);
     };
 
@@ -92,7 +90,7 @@ const Route = (props) => {
             <CardActions className={classes.cardActions}>
               <IconButton className={classes.cardButton} onClick={deleteBtn} size="small">
                 <DeleteIcon />
-                  </IconButton>
+              </IconButton>
             </CardActions>
         </CardActionArea>   
       </Card>

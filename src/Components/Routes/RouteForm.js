@@ -6,6 +6,7 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles( () => ({
     routeForm: {
@@ -18,7 +19,6 @@ const useStyles = makeStyles( () => ({
     formTitle: {
         color: '#693fd3',
         fontSize: '24px',
-        fontWeight: '500',
     },
     routeName: {
         backgroundColor: 'white',
@@ -83,7 +83,7 @@ const RouteForm = (props) => {
             <Grid container spacing={4}>
                 <Grid container item xs={12} spacing={0}>
                     <Grid>   
-                        <h1 className={classes.formTitle}>{title}</h1>
+                        <Typography className={classes.formTitle}>{title}</Typography>
                     </Grid>
                 </Grid>
 

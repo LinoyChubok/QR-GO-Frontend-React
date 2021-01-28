@@ -78,8 +78,8 @@ const RoutesList = (props) => {
     data.routes.map(route => add({id: route._id, routeName: route.routeName, district: route.district, image: route.image, description: route.description, challengesAmount: route.challengesAmount}))
   }
 
-  const nextId = (transports = []) => {    
-    let max = transports.reduce((prev, curr) => prev.id > curr.id ? prev.id : curr.id , 0);
+  const nextId = (routes = []) => {    
+    let max = routes.reduce((prev, curr) => prev.id > curr.id ? prev.id : curr.id , 0);
     return ++max;
   };
 
@@ -136,31 +136,30 @@ const RoutesList = (props) => {
                         {value: "Tel Aviv District"}, {value: "Jerusalem District"}, {value: "Southern District"} ];
 
     return( 
-              <div className={classes.routesList}>
-                <PopupState variant="popover" popupId="demo-popup-menu">
-                  {(popupState) => (
-                    <React.Fragment>
-                      <div className={classes.actionButtons}>
-                        <Button className={classes.clearFilter} onClick={clearFilter} variant="contained">Clear</Button>
-                        <Button className={classes.selectDistrict} variant="contained" {...bindTrigger(popupState)}>Select District<ArrowDropDownIcon/></Button>
-                      </div>
-                      <Menu {...bindMenu(popupState)}>
-                      {districts.map((option) => (
-                        <MenuItem value={option.value} onClick={() => {getAllRoutesByFilter(option.value);  popupState.close();}}> {option.value} </MenuItem>
-                      ))}
-                      </Menu>                      
-                    </React.Fragment>
-                  )}
-                </PopupState>
-                <div className={classes.routesContainer}>
-                  { routes.map(eachRoute) }
-                </div>
-                <NavLink className={classes.link} exact to={`/route`}>
-                  <AddCircleIcon className={classes.addRoute}/>
-                </NavLink>
-
+      <div className={classes.routesList}>
+        <PopupState variant="popover" popupId="demo-popup-menu">
+          {(popupState) => (
+            <React.Fragment>
+              <div className={classes.actionButtons}>
+                <Button className={classes.clearFilter} onClick={clearFilter} variant="contained">Clear</Button>
+                <Button className={classes.selectDistrict} variant="contained" {...bindTrigger(popupState)}>Select District<ArrowDropDownIcon/></Button>
               </div>
-            
+              <Menu {...bindMenu(popupState)}>
+              {districts.map((option) => (
+                <MenuItem value={option.value} onClick={() => {getAllRoutesByFilter(option.value);  popupState.close();}}> {option.value} </MenuItem>
+              ))}
+              </Menu>                      
+            </React.Fragment>
+          )}
+        </PopupState>
+        <div className={classes.routesContainer}>
+          { routes.map(eachRoute) }
+        </div>
+        <NavLink exact to={`/route`}>
+          <AddCircleIcon className={classes.addRoute}/>
+        </NavLink>
+      </div>
+           
     );   
   }
   export default RoutesList;
