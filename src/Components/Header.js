@@ -41,6 +41,10 @@ const Header = (props) => {
 
     const isAuth = props.changeHeader;
 
+    const logoutButtonClick = () => {
+        window.location.assign('https://qr-go.herokuapp.com/auth/logout');
+    }
+
     const renderBaseHeader= () => {
         return (
             <AppBar className={classes.customAppBar}>
@@ -49,7 +53,7 @@ const Header = (props) => {
                     <NavLink className={classes.ToolbarItem} exact to="/games">Games</NavLink>
                     <NavLink className={classes.ToolbarItem} exact to="/routes">Routes</NavLink>
                     <NavLink className={classes.ToolbarItem} exact to="/statistics">Statistics</NavLink>
-                    <Button className={classes.logout} variant="contained" >LOGOUT</Button>
+                    <Button className={classes.logout} variant="contained" onClick={logoutButtonClick} >LOGOUT</Button>
                 </Toolbar>
             </AppBar>
         ); 
