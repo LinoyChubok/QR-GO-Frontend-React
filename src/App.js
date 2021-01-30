@@ -2,14 +2,10 @@ import './App.css';
 import Header from './Components/Header';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles( (theme) => ({
-}));
 
 const App = ( {children, isAuthed} ) => {
 
-  const classes = useStyles();
   const location = useLocation();
 
   const [bgColor, SetBgColor] = useState('#f2edf3');

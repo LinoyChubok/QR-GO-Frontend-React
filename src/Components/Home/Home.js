@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import sideImage from '../../Images/ipad-iphone-qrgo.png'
-import waveFooter from '../../Images/wave.svg'
+
 const useStyles = makeStyles( (theme) => ({
     mainContainer: {
         marginTop: '15%',
