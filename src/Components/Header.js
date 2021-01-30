@@ -6,6 +6,14 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 
+import styled, { keyframes } from 'styled-components';
+import { bounceIn } from 'react-animations'
+
+const bounceInAnimation = keyframes`${bounceIn}`;
+const BounceInDiv = styled.div`
+  animation: 3s ${bounceInAnimation};
+`;
+
 const useStyles = makeStyles( (theme) => ({
     logo: {
         backgroundImage: `url(${logo})`,
@@ -32,33 +40,24 @@ const useStyles = makeStyles( (theme) => ({
         background: '#ffffff',
         fontWeight: 'bold',
         position: 'absolute',
-        right: '20px'
+        right: '20px',
+        top: '12px'
     }
   }));
 
 const Header = (props) => {
     const classes = useStyles();
 
-    const isAuth = props.changeHeader;
+    const header = props.changeHeader;
+    
+    console.log(header);
 
     const logoutButtonClick = () => {
         window.location.assign('https://qr-go.herokuapp.com/auth/logout');
     }
 
-    const renderBaseHeader= () => {
-        return (
-            <AppBar className={classes.customAppBar}>
-                <Toolbar>
-                    <div className={classes.logo}></div>
-                    <NavLink className={classes.ToolbarItem} exact to="/games">Games</NavLink>
-                    <NavLink className={classes.ToolbarItem} exact to="/routes">Routes</NavLink>
-                    <NavLink className={classes.ToolbarItem} exact to="/statistics">Statistics</NavLink>
-                    <Button className={classes.logout} variant="contained" onClick={logoutButtonClick} >LOGOUT</Button>
-                </Toolbar>
-            </AppBar>
-        ); 
-    }    
-    const renderHomePageHeader= () => {
+    
+    const renderHomePageHeader = () => {
         return (
             <AppBar className={classes.customAppBar}>
                 <Toolbar>
@@ -71,6 +70,32 @@ const Header = (props) => {
             </AppBar>
         ); 
     }
-    return isAuth ? renderBaseHeader() : renderHomePageHeader();
+
+    const renderAdminHeader= () => {
+        return (
+            <AppBar className={classes.customAppBar}>
+                <Toolbar>
+                    <div className={classes.logo}></div>
+                    <NavLink className={classes.ToolbarItem} exact to="/games">Games</NavLink>
+                    <NavLink className={classes.ToolbarItem} exact to="/routes">Routes</NavLink>
+                    <NavLink className={classes.ToolbarItem} exact to="/statistics">Statistics</NavLink>
+                    <Button className={classes.logout} variant="contained" onClick={logoutButtonClick} >LOGOUT</Button>
+                </Toolbar>
+            </AppBar>
+        ); 
+    }    
+    const renderLogoutOnlyHeader= () => {
+        return (
+            <Toolbar>
+                <BounceInDiv id="lobbyLogo"></BounceInDiv>
+                <Button className={classes.logout} variant="contained" onClick={logoutButtonClick} >LOGOUT</Button>
+            </Toolbar>
+        ); 
+    }
+
+
+ 
+    return header === "HomePageHeader" ? renderHomePageHeader() : (header === "AdminHeader" ? renderAdminHeader() : renderLogoutOnlyHeader());
+
 }
 export default Header;

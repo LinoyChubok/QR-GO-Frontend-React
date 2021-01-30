@@ -5,6 +5,7 @@ import  RoutesList  from '../Components/Routes/RoutesList';
 import  BuildRoute  from '../Components/Routes/BuildRoute';
 import  GamesTables  from '../Components/Games/GamesTables';
 import  BuildGame  from '../Components/Games/BuildGame';
+import  Lobby  from '../Components/Lobby/Lobby';
 
 
 const ReactRouter = () => {
@@ -15,6 +16,7 @@ const ReactRouter = () => {
         <Route path="/route" render={props => <BuildRoute {...props} />}/>
         <Route exact path="/games" render={props => <GamesTables {...props} />}/>
         <Route path="/game" render={props => <BuildGame {...props} />}/>
+        <Route path="/lobby" render={props => <Lobby {...props} />}/>
       </Switch>
   );
 }

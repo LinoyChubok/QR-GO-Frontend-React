@@ -57,9 +57,11 @@ const Game = (props) => {
             <StyledTableCell align="left"> {`${props.game.gameTime.hours}h ${props.game.gameTime.minutes}m`} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.state} </StyledTableCell>
             <StyledTableCell align="left"> 
-              <IconButton className={classes.gameButton} size="small">
+              <NavLink className={classes.link} exact to={`/lobby?id=${props.game.id}`} target="_blank">
+                <IconButton className={classes.gameButton} size="small">
                   <PlayArrowIcon />
-              </IconButton>
+                </IconButton>
+              </NavLink>
               <NavLink className={classes.link} exact to={`/game?id=${props.game.id}`}>
                 <IconButton className={classes.gameButton} size="small">
                     <EditIcon />

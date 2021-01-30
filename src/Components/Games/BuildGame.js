@@ -71,7 +71,7 @@ const BuildGame = (props) => {
       const getSpecificGame = async () => {
         const value = queryString.parse(props.location.search);
         const id = value.id;
-        if (id !== undefined) {
+        if (id) {
             let data =[];
             try {
             data = await fetch(`https://qr-go.herokuapp.com/api/games/${id}`).then(res => res.json());

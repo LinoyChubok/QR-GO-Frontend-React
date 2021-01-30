@@ -62,7 +62,7 @@ const RouteForm = (props) => {
 
       const getSpecificRoute = async () => {
         const id = props.routeId  
-        if (id !== undefined) {
+        if (id) {
             let data =[];
             try {
             data = await fetch(`https://qr-go.herokuapp.com/api/routes/${id}`).then(res => res.json());

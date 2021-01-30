@@ -129,7 +129,7 @@ const RoutesList = (props) => {
         return  (<Route key={item.id} index={index} route={item}
                   onClickDeleteBtn={deleteRoute}>                
                 </Route>)
-      };
+    };
 
     const districts = [ {value: "Northern District"}, {value: "Haifa District"}, {value: "Central District"},
                         {value: "Tel Aviv District"}, {value: "Jerusalem District"}, {value: "Southern District"} ];
