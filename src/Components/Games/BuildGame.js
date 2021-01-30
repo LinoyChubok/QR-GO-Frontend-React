@@ -40,9 +40,9 @@ const useStyles = makeStyles( () => ({
         backgroundColor: 'white',
         width: 382,
     },
-    routeDescription : {
+    gameTime : {
         backgroundColor: 'white',
-        width: 400,
+        width: 50,
     },
     formButton: {
         width: 150,
@@ -57,17 +57,12 @@ const useStyles = makeStyles( () => ({
 
 const BuildGame = (props) => {
     const classes = useStyles();
-    const [game, setGame] = useState({id: "", routeId: "", routeName: "", createdAt: "", gameTimeHours: "",  gameTimeMinutes: "", groupsAmount: "", gamePin: "", state: ""});
+    const [game, setGame] = useState({id: "", route: "", createdAt: "", gameTimeHours: "",  gameTimeMinutes: "", groupsAmount: "", gamePin: "", state: ""});
     const [title, setTitle] = useState();
     const [buttonText, setButtonText] = useState();
-
     const [routes, setRoutes] = useState([]);
     
-    const [currRouteId, setCurrRouteId] = useState();
-
-
-    console.log(game);
-
+ 
     useEffect(() => { 
         fetchRoutesData();
         getSpecificGame();
@@ -83,8 +78,7 @@ const BuildGame = (props) => {
             } catch(err) {
             console.log("error where fetching data");
             }
-
-            setGame({id: data.game._id, routeId: data.game.route._id, routeName: data.game.route.routeName, createdAt: data.game.createdAt, gameTimeHours: data.game.gameTime.hours, gameTimeMinutes: data.game.gameTime.minutes, groupsAmount: data.game.groupsAmount, gamePin: data.game.gamePin, state: data.game.state});
+            setGame({id: data.game._id, route: data.game.route, createdAt: data.game.createdAt, gameTimeHours: data.game.gameTime.hours, gameTimeMinutes: data.game.gameTime.minutes, groupsAmount: data.game.groupsAmount, gamePin: data.game.gamePin, state: data.game.state});
             setTitle("Edit Specific Game");
             setButtonText("Confirm");   
         }
@@ -106,7 +100,6 @@ const BuildGame = (props) => {
         setRoutes(data.routes);
     };
 
-
     return(
         <Paper elevation={3} className={classes.container}>
             <form className={classes.routeForm}>
@@ -122,9 +115,13 @@ const BuildGame = (props) => {
                             <Autocomplete className={classes.routeName} size="small" 
                             options={routes.sort((a, b) => -b.district.localeCompare(a.district))}
                             groupBy={(route) => route.district}
-                            getOptionLabel={(route) => route.routeName}
-                            onChange={(event, route) => {if (route) setCurrRouteId(route._id); else {setCurrRouteId(null);}}}
-                            renderInput={(params) => <TextField {...params} value={game.routeName} onChange={e => setGame({...game, routeName: e.target.value})}  label="Route" variant="outlined" InputLabelProps={{ shrink: true }}/>} />
+                            getOptionLabel={(route) => route ? route.routeName : ""}
+                            onChange={(event, route) => {if (route) setGame({...game, route: route});  else {setGame(null);}  }}
+                            value={game.route}                    
+                            getOptionSelected={(route, value) => route.routeName === value.routeName }
+
+                            renderInput={(params) => <TextField {...params} 
+                              label="Route" variant="outlined" InputLabelProps={{ shrink: true }}/>} />
                         </Grid>
                     </Grid>
 
@@ -132,7 +129,7 @@ const BuildGame = (props) => {
                         <Grid item>
                             <FormControl size="small" variant="outlined" className={classes.formControl}>
                                 <InputLabel shrink={true} htmlFor="outlined-age-native-simple" >Groups Amount</InputLabel>
-                                <Select value={game.groupsAmount} onChange={e => setGame({...game, district: e.target.value})} native label="District" inputProps={{ className: classes.groupAmount }} input={ <OutlinedInput notched labelWidth={115}/>} >
+                                <Select value={game.groupsAmount} onChange={e => setGame({...game, groupsAmount: e.target.value})} native label="District" inputProps={{ className: classes.groupAmount }} input={ <OutlinedInput notched labelWidth={115}/>} >
                                     <option value="" disabled hidden>&nbsp;</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -143,14 +140,15 @@ const BuildGame = (props) => {
                         </Grid>
                     </Grid>
 
+
                     <Grid container item xs={12} spacing={0}>
-                        <Grid>
-                            <TextField type="number" value={game.gameTimeHours} onChange={e => setGame({...game, gameTime: e.target.value})} size="small" label="Hours" variant="outlined"
-                            inputProps={{ className: classes.routeImage }} InputLabelProps={{ shrink: true }}/>
+                        <Grid item xs={2}>
+                            <TextField type="number" value={game.gameTimeHours} onChange={e => setGame({...game, gameTimeHours: e.target.value})} size="small" label="Hours" variant="outlined"
+                            inputProps={{ className: classes.gameTime }} InputLabelProps={{ shrink: true }}/>
                         </Grid>
-                        <Grid>
-                            <TextField type="number" value={game.gameTimeMinutes} onChange={e => setGame({...game, gameTime: e.target.value})} size="small" label="Minutes" variant="outlined"
-                            inputProps={{ className: classes.routeImage }} InputLabelProps={{ shrink: true }}/>
+                        <Grid item xs={2}>
+                            <TextField type="number" value={game.gameTimeMinutes} onChange={e => setGame({...game, gameTimeMinutes: e.target.value})} size="small" label="Minutes" variant="outlined"
+                            inputProps={{ className: classes.gameTime }} InputLabelProps={{ shrink: true }}/>
                         </Grid>
                     </Grid>
 
