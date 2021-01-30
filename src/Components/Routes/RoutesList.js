@@ -74,7 +74,6 @@ const RoutesList = (props) => {
     } catch(err) {
       console.log("error where fetching data");
     }
-    console.log(data);
     data.routes.map(route => add({id: route._id, routeName: route.routeName, district: route.district, image: route.image, description: route.description, challengesAmount: route.challengesAmount}))
   }
 

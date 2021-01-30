@@ -26,12 +26,12 @@ const useStyles = makeStyles( () => ({
   
   }));
 
-const GamesTables = (props) => {
+const GamesTables = () => {
     const classes = useStyles();
-
+    
     return (
       <div className={classes.tablesContainer}>
-          <Button component={NavLink} exact to="/game" variant="contained" size="large" className={classes.createButton}>Create a New Game</Button>
+        <Button component={NavLink} exact to="/game" variant="contained" size="large" className={classes.createButton}>Create a New Game</Button>
         <ActiveGames/>
         <PastGames/>
       </div>     

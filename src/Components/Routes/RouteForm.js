@@ -7,6 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import OutlinedInput from "@material-ui/core/OutlinedInput";
 
 const useStyles = makeStyles( () => ({
     routeForm: {
@@ -51,6 +52,7 @@ const useStyles = makeStyles( () => ({
 const RouteForm = (props) => {
     const classes = useStyles();
     const [route, setRoute] = useState({ id: "", routeName: "", district: "", description: "" , image: "", challengesAmount: null, challenges: []});
+      
     const [title, setTitle] = useState();
     const [buttonText, setButtonText] = useState();
 
@@ -67,10 +69,10 @@ const RouteForm = (props) => {
             } catch(err) {
             console.log("error where fetching data");
             }
+            
             setRoute({ id: data.route._id, routeName: data.route.routeName, district: data.route.district, description: data.route.description , image: data.route.image, challengesAmount: data.route.challengesAmount, challenges: data.route.challenges});
             setTitle("Edit Specific Route");
-            setButtonText("Confirm");
-      
+            setButtonText("Confirm");     
         }
         else {
             setTitle("Create a New Route");
@@ -89,16 +91,16 @@ const RouteForm = (props) => {
 
                 <Grid container item xs={12} spacing={0}>
                     <Grid>
-                        <TextField value={route.routeName} size="small" label="Route Name" variant="outlined"
-                        inputProps={{ className: classes.routeName }}/>
+                        <TextField value={route.routeName} onChange={e => setRoute({...route, routeName: e.target.value}) } size="small" label="Route Name" variant="outlined"
+                        inputProps={{ className: classes.routeName }} InputLabelProps={{ shrink: true }} />
                     </Grid>
                 </Grid>
 
                 <Grid container item xs={12} spacing={0}>
                     <Grid item>
                         <FormControl size="small" variant="outlined" className={classes.formControl}>
-                            <InputLabel htmlFor="outlined-age-native-simple" >District</InputLabel>
-                            <Select value={route.district} native label="District" inputProps={{ className: classes.routeDistrict }} >
+                            <InputLabel shrink={true} htmlFor="outlined-age-native-simple" >District</InputLabel>
+                            <Select value={route.district} onChange={e => setRoute({...route, district: e.target.value})} native label="District" inputProps={{ className: classes.routeDistrict }} input={ <OutlinedInput notched labelWidth={55}/>}>
                                 <option value="" disabled hidden>&nbsp;</option>
                                 <option value="Northern District">Northern District</option>
                                 <option value="Haifa District">Haifa District</option>
@@ -113,15 +115,15 @@ const RouteForm = (props) => {
 
                 <Grid container item xs={12} spacing={0}>
                     <Grid>
-                        <TextField value={route.image} size="small" label="Image" variant="outlined"
-                        inputProps={{ className: classes.routeImage }}/>
+                        <TextField value={route.image} onChange={e => setRoute({...route, image: e.target.value})} size="small" label="Image" variant="outlined"
+                        inputProps={{ className: classes.routeImage }} InputLabelProps={{ shrink: true }} />
                     </Grid>
                 </Grid>
 
                 <Grid container item xs={12} spacing={0}>
                     <Grid>
-                        <TextField value={route.description} size="small" label="Description" multiline rows={3}  variant="outlined"
-                         inputProps={{ className: classes.routeDescription }} />
+                        <TextField value={route.description} onChange={e => setRoute({...route, description: e.target.value})} size="small" label="Description" multiline rows={3}  variant="outlined"
+                         inputProps={{ className: classes.routeDescription }} InputLabelProps={{ shrink: true }}/>
                     </Grid>
                 </Grid>
 

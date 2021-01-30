@@ -26,7 +26,7 @@ const Home = () => {
         window.location.assign('https://qr-go.herokuapp.com/auth/google');
     }
 
-
+    
     return(
         <div className={classes.homeComponent}>
             <div id="wrapper">
