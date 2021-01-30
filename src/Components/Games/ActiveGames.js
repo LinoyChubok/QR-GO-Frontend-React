@@ -84,7 +84,6 @@ const ActiveGames = (props) => {
               onClickDeleteBtn={deleteGame}>                
           </Game>)
   };
-
   
   return(  
       <TableContainer className={classes.table} component={Paper}>
@@ -96,7 +95,6 @@ const ActiveGames = (props) => {
                   <TableCell style={{fontWeight: "bold"}} align="left">Route</TableCell>
                   <TableCell style={{fontWeight: "bold"}} align="left">Groups Amount</TableCell>
                   <TableCell style={{fontWeight: "bold"}} align="left">Game Time</TableCell>
-                  <TableCell style={{fontWeight: "bold"}} align="left">Game PIN</TableCell>
                   <TableCell style={{fontWeight: "bold"}} align="left">Game Status</TableCell>
                   <TableCell align="left"></TableCell>
               </TableRow>

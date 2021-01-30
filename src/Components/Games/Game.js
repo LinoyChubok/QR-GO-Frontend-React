@@ -6,11 +6,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { NavLink } from 'react-router-dom'
-
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-
-
 
   const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -37,7 +34,7 @@ import TableRow from '@material-ui/core/TableRow';
     marginLeft: 10,
   },
   empty: {
-    paddingRight: 129,
+    paddingRight: 166,
   }
   
 }));
@@ -48,7 +45,6 @@ const Game = (props) => {
     const gameStatus = props.game.state;
 
     const deleteBtn = () => {
-      console.log(props.game.id)
       props.onClickDeleteBtn(props.game.id);
     };
 
@@ -59,7 +55,6 @@ const Game = (props) => {
             <StyledTableCell align="left"> {props.game.route.routeName} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.groupsAmount} </StyledTableCell>
             <StyledTableCell align="left"> {`${props.game.gameTime.hours}h ${props.game.gameTime.minutes}m`} </StyledTableCell>
-            <StyledTableCell align="left"> {props.game.gamePin} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.state} </StyledTableCell>
             <StyledTableCell align="left"> 
               <IconButton className={classes.gameButton} size="small">
@@ -84,7 +79,6 @@ const Game = (props) => {
             <StyledTableCell align="left"> {props.game.route.routeName} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.groupsAmount} </StyledTableCell>
             <StyledTableCell align="left"> {`${props.game.gameTime.hours}h ${props.game.gameTime.minutes}m`} </StyledTableCell>
-            <StyledTableCell align="left"> {props.game.gamePin} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.state} </StyledTableCell>
             <StyledTableCell className={classes.empty} align="left"></StyledTableCell>
         </StyledTableRow>

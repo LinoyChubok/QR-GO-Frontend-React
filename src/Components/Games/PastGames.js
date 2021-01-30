@@ -77,9 +77,7 @@ const PastGames = (props) => {
 
 
   const eachGame = (item, index) => {
-  return  (<Game key={item.id} index={index} game={item}
-              onClickDeleteBtn={deleteGame}>                
-          </Game>)
+  return  (<Game key={item.id} index={index} game={item}></Game>)
   };
 
   
@@ -93,7 +91,6 @@ const PastGames = (props) => {
                     <TableCell style={{fontWeight: "bold"}} align="left">Route</TableCell>
                     <TableCell style={{fontWeight: "bold"}} align="left">Groups Amount</TableCell>
                     <TableCell style={{fontWeight: "bold"}} align="left">Game Time</TableCell>
-                    <TableCell style={{fontWeight: "bold"}} align="left">Game PIN</TableCell>
                     <TableCell style={{fontWeight: "bold"}} align="left">Game Status</TableCell>
                     <TableCell align="left"></TableCell>
                 </TableRow>
