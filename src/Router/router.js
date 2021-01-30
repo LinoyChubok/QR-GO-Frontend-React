@@ -6,6 +6,7 @@ import  BuildRoute  from '../Components/Routes/BuildRoute';
 import  GamesTables  from '../Components/Games/GamesTables';
 import  BuildGame  from '../Components/Games/BuildGame';
 import  Lobby  from '../Components/Lobby/Lobby';
+import  Join  from '../Components/Join/Join';
 
 
 const ReactRouter = () => {
@@ -17,6 +18,7 @@ const ReactRouter = () => {
         <Route exact path="/games" render={props => <GamesTables {...props} />}/>
         <Route path="/game" render={props => <BuildGame {...props} />}/>
         <Route path="/lobby" render={props => <Lobby {...props} />}/>
+        <Route path="/join" render={props => <Join {...props} />}/>
       </Switch>
   );
 }

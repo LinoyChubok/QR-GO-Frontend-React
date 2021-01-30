@@ -70,8 +70,6 @@ const useStyles = makeStyles( (theme) => ({
     width: theme.spacing(7),
     height: theme.spacing(7),
     margin: '20px',
-
-
   },
   startButton: {
     color: '#ffffff',
