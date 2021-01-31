@@ -72,14 +72,14 @@ const useStyles = makeStyles( (theme) => ({
   },
   }));
 
-const Join = () => {
+const Join = (props) => {
     const classes = useStyles();
  
   
     return (
       <div className={classes.wrapper}>
         <div className={classes.startText}>
-            <Typography  className={classes.playerName}>Hello Linoy,</Typography>
+            <Typography  className={classes.playerName}>{`Hello ${props.user.firstName},`}</Typography>
             <Typography className={classes.sentence}>The game is about to start. Please enter the game PIN below.</Typography>
         </div>
         <InputBase classes={{ input: classes.gamePinInput }} placeholder="Game PIN" label="Outlined" variant="outlined"/>

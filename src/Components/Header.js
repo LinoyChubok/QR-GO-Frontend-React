@@ -47,12 +47,10 @@ const useStyles = makeStyles( (theme) => ({
 
 const Header = (props) => {
     const classes = useStyles();
-
     const header = props.changeHeader;
     
-    console.log(header);
-
     const logoutButtonClick = () => {
+        localStorage.clear();
         window.location.assign('https://qr-go.herokuapp.com/auth/logout');
     }
 
