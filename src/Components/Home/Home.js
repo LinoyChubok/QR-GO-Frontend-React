@@ -1,9 +1,10 @@
         import React, { useEffect } from 'react';
+        import useLocalStorage from '../../hooks/useLocalStorage'
         import queryString from 'query-string'
         import {useLocation} from 'react-router-dom'
         import { makeStyles } from '@material-ui/core/styles';
         import sideImage from '../../Images/ipad-iphone-qrgo.png'
-        
+
         const useStyles = makeStyles( (theme) => ({
             mainContainer: {
                 marginTop: '15%',
@@ -23,13 +24,14 @@
         
         const Home = (props) => {
             const classes = useStyles();
+            const [user] = useLocalStorage('user');
             const location = useLocation();
 
             useEffect(() => {
-                const value = queryString.parse(props.location.search);
-                const userId = value.user;
-                if(userId)
-                    fetchData(userId);
+                    const value = queryString.parse(props.location.search);
+                    const userId = value.user;
+                    if(userId)
+                        fetchData(userId);  
             }, [location]);
         
             const fetchData = async (userId) => {
@@ -42,24 +44,22 @@
                 }
                 localStorage.setItem("qr-go-user", JSON.stringify(data.user));
                 if(data.user.role === "admin") {
-                    window.location.assign('http://localhost:3001/games');
+                    window.location.assign('http://localhost:3000/games');
                 }
                 else if(data.user.role === "player") {
-                    window.location.assign('http://localhost:3001/join');
+                    window.location.assign('http://localhost:3000/join');
                 }
                 else {
-                    window.location.assign('http://localhost:3001/');
+                    window.location.assign('http://localhost:3000/');
                 }
             }
 
-           
-        
             const googleButtonClick = () => {
                 window.location.assign('http://qr-go.herokuapp.com/auth/google');
             }
         
-            
-            return(
+            const renderHome = () => {           
+            return( 
                 <div className={classes.homeComponent}>
                     <div id="wrapper">
                         <div className={classes.mainContainer}>
@@ -92,4 +92,7 @@
         
             );
         }
+
+        return  user ? ( user.role === "player" ? window.location.assign('http://localhost:3000/join') : ( user.role === "admin" ?  window.location.assign('http://localhost:3000/games') : renderHome())) : renderHome();
+    }
         export default Home;

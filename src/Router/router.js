@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage'
 import Home  from '../Components/Home/Home';
@@ -10,29 +10,22 @@ import Lobby  from '../Components/Lobby/Lobby';
 import Join  from '../Components/Join/Join';
 import NotFound  from '../Components/NotFound/NotFound';
 import AdminRoute from './AdminRoute'
-import { useLocation } from 'react-router-dom';
-
+import PlayerRoute from './PlayerRoute'
 
 const ReactRouter = () => {
 
-  const [user, setUser] = useLocalStorage('user');
-  const location = useLocation();
-  const currentPath = location.pathname;
-
-  console.log(`path: ${currentPath} , user: ${user}`);
+  const [user] = useLocalStorage('user');
 
   return (
       <Switch>
         <Route exact path="/" render={props => <Home {...props} />}/>
-        <Route path="/routes" render={props => <RoutesList {...props} />}/>
-        <Route path="/route" render={props => <BuildRoute {...props} />}/>
-
-        <AdminRoute path="/games" component={GamesTables} user={user}/>
-
-        <Route path="/game" render={props => <BuildGame {...props} />}/>
-        <Route path="/lobby" render={props => <Lobby {...props} />}/>
-        <Route path="/join" render={props => <Join {...props} user={user} />}/>
-        <Route path='*' exact={true} render={props =><NotFound {...props} />} />
+        <AdminRoute exact path="/routes" component={RoutesList} user={user}/>
+        <AdminRoute exact path="/route" component={BuildRoute} user={user}/>
+        <AdminRoute exact path="/games" component={GamesTables} user={user}/>
+        <AdminRoute exact path="/game" component={BuildGame} user={user}/>
+        <AdminRoute exact path="/lobby" component={Lobby} user={user}/>
+        <PlayerRoute exact path="/join"  component={Join} user={user}/>
+        <Route path='*' render={props =><NotFound {...props} />} />
       </Switch>
   );
 }

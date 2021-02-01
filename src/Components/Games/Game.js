@@ -1,11 +1,10 @@
 import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-
 import IconButton from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
@@ -57,16 +56,16 @@ const Game = (props) => {
             <StyledTableCell align="left"> {`${props.game.gameTime.hours}h ${props.game.gameTime.minutes}m`} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.state} </StyledTableCell>
             <StyledTableCell align="left"> 
-              <NavLink className={classes.link} exact to={`/lobby?id=${props.game.id}`} target="_blank">
+              <Link className={classes.link} to={`/lobby?id=${props.game.id}`} target="_blank">
                 <IconButton className={classes.gameButton} size="small">
                   <PlayArrowIcon />
                 </IconButton>
-              </NavLink>
-              <NavLink className={classes.link} exact to={`/game?id=${props.game.id}`}>
+              </Link>
+              <Link className={classes.link} to={`/game?id=${props.game.id}`}>
                 <IconButton className={classes.gameButton} size="small">
                     <EditIcon />
                 </IconButton>
-              </NavLink>
+              </Link>
               <IconButton className={classes.gameButton} onClick={deleteBtn} size="small">
                   <DeleteIcon />
               </IconButton>

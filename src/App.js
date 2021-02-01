@@ -17,19 +17,28 @@ const App = ( {children} ) => {
     const currentPath = location.pathname;
 
     if(user) {
-      if( user.role === 'player' || ( user.role === 'admin' && currentPath === '/lobby')) {
+      if( ((currentPath === '/join' || currentPath === '/join/') && user.role === 'player') || ((currentPath === '/lobby' || currentPath === '/lobby/') && user.role === 'admin' )) {
         SetHeaderMode("LogoutOnlyHeader");
         SetBgColor('#f2edf3');
       }
-      else if(user.role === 'admin'){
+      else if(user.role === 'admin' && 
+      ((currentPath === '/games' || currentPath === '/games/') || (currentPath === '/game' || currentPath === '/game/') ||
+       (currentPath === '/routes' || currentPath === '/routes/') || (currentPath === '/route' || currentPath === '/route/'))){
         SetHeaderMode("AdminHeader");
         SetBgColor('#f2edf3');
-      }    
-  }
-  else {
-    SetHeaderMode("HomePageHeader");
-    SetBgColor('linear-gradient( #693fd3, #693fd3,#4822a7, #4822a7)');
-  }
+      } else {
+        SetHeaderMode("NotFoundHeader");
+        SetBgColor('white');
+      } 
+    }
+    else if (currentPath === '/') {
+      SetHeaderMode("HomePageHeader");
+      SetBgColor('linear-gradient( #693fd3, #693fd3,#4822a7, #4822a7)');
+    }
+    else {
+      SetHeaderMode("NotFoundHeader");
+      SetBgColor('white');
+    }
   }, [location.pathname]);
 
   return (

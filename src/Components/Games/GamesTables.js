@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import ActiveGames from './ActiveGames'
 import PastGames from './PastGames'
 import Button from '@material-ui/core/Button';
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles( () => ({
   tablesContainer: {
@@ -31,7 +31,7 @@ const GamesTables = () => {
     
     return (
       <div className={classes.tablesContainer}>
-        <Button component={NavLink} exact to="/game" variant="contained" size="large" className={classes.createButton}>Create a New Game</Button>
+        <Button component={Link} to="/game" variant="contained" size="large" className={classes.createButton}>Create a New Game</Button>
         <ActiveGames/>
         <PastGames/>
       </div>     

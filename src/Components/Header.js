@@ -90,10 +90,13 @@ const Header = (props) => {
             </Toolbar>
         ); 
     }
+    const renderNotFoundHeader= () => {
+        return (
+            <Toolbar>
+            </Toolbar>
+        ); 
+    }
 
-
- 
-    return header === "HomePageHeader" ? renderHomePageHeader() : (header === "AdminHeader" ? renderAdminHeader() : renderLogoutOnlyHeader());
-
+    return header === "HomePageHeader" ? renderHomePageHeader() : (header === "AdminHeader" ? renderAdminHeader() : (header === "LogoutOnlyHeader" ? renderLogoutOnlyHeader() : renderNotFoundHeader()));
 }
 export default Header;
