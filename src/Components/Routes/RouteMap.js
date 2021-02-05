@@ -37,7 +37,7 @@ const RouteMap = (props) => {
 
   return( 
         <div className={classes.challengesContainer}>
-          <MapContainer center={[31.0461, 34.8516]} zoom={13} scrollWheelZoom={true} className={classes.map}>
+          <MapContainer center={[32.0461, 34.8516]} zoom={7} scrollWheelZoom={true} className={classes.map}>
             <TileLayer
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2FnaWNodSIsImEiOiJja2o3b3A4bGc2am5uMnNsYng0Yzg2dm9uIn0.rzN5tPVzLIflz5KXP1yPYw"
