@@ -18,7 +18,7 @@ const ChallengeDialog = (props) => {
   
 
   const handleClose = () => {
-    setOpen(false);
+    props.onClose(false);
   };
 
   
@@ -28,8 +28,7 @@ const ChallengeDialog = (props) => {
 
   return (
     <div>
-      {/* <Dialog open={props.dialogMode} */}
-     <Dialog open={open}
+      <Dialog open={open}
         fullScreen={fullScreen}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"

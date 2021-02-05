@@ -23,21 +23,28 @@ const useStyles = makeStyles( () => ({
 
     const [open, setOpen] = useState(false);
 
+    const [close, setClose] = useState(true);
 
-    const myIcon = new L.icon({
+
+    const extendIcon = L.Icon.extend({
+      options: {
+      iconSize:     [30, 38], // size of the icon
+      shadowSize:   [42, 36], // size of the shadow
+      iconAnchor:   [9, 16], // point of the icon which will correspond to marker's location
+      }
+    });
+
+    const myIcon = new extendIcon({
       iconUrl: QrGoMarker,
       shadowUrl: QrGoMarkerShadow,
-      iconSize:     [30, 38], // size of the icon
-      shadowSize:   [32, 38], // size of the shadow
-      iconAnchor:   [9, 16], // point of the icon which will correspond to marker's location
-  });
+  })
 
 
     const map = useMapEvents({
       click: (e) => {
         const { lat, lng } = e.latlng;
         setPosition(e.latlng)
-        const challengeMarker = L.marker([lat, lng], myIcon)
+        const challengeMarker = new L.marker([lat, lng], {icon: myIcon})
         challengeMarker.addTo(map);
 
         challengeMarker.on({
@@ -54,7 +61,7 @@ const useStyles = makeStyles( () => ({
     // return null;
     return (
       
-      <ChallengeDialog className={classes.dialog} dialogMode={open} />
+      <ChallengeDialog className={classes.dialog} dialogMode={open} onClose={() => setOpen(false)} />
       
     );
     // return position === null ? null : (
