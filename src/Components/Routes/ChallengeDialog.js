@@ -1,21 +1,80 @@
 import React, {useState, useEffect} from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import PrintIcon from '@material-ui/icons/Print';
+import DeleteIcon from '@material-ui/icons/Delete';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+import printQrIcon from '../../Images/qr.png'
+const useStyles = makeStyles( (theme) => ({
+    challengeForm: {
+        marginTop: 30,
+    },
+    dialogTitle: {
+        color: '#693fd3',
+    },
+    secretkey: {
+        backgroundColor: 'white',
+        width: 400,
+    },
+    printButton: {
+        color: '#693fd3',
+        border: `1px solid #693fd3`,
+        textTransform: 'none',
+        backgroundImage:`url(${printQrIcon})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        maxWidth: '40px',
+        minWidth: '40px',
+        maxHeight: '40px',
+        minHeight: '40px'
+
+    },
+    clue: {
+        backgroundColor: 'white',
+        width: 464,
+        [theme.breakpoints.down('sm')]: {
+            width: 400,
+        },
+    },
+    closeButton: {
+        color: '#693fd3',
+        border: `1px solid #693fd3`,
+        textTransform: 'none',
+        float: 'right',
+        marginRight: 60,
+        [theme.breakpoints.down('sm')]: {
+            float: 'none',
+            marginLeft: '10%',
+        },
+    },
+    deleteButton: {
+        color: '#693fd3',
+        border: `1px solid #693fd3`,
+        textTransform: 'none',
+    }
+}));
 
 const ChallengeDialog = (props) => {
+    const classes = useStyles();
+
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
  
-  console.log("open" , open)
- 
-  
+
+  const [latlng, setLatlng] = useState({lat: "", lng: ""});
+  const [challenge, setChallenge] = useState({ id: "", latlng: "", secretkey: "", clue: "" , url: ""});
+
+
 
   const handleClose = () => {
     props.onClose(false);
@@ -24,6 +83,11 @@ const ChallengeDialog = (props) => {
   
   useEffect(() => { 
     setOpen(props.dialogMode);
+    if(props.currentMarker) {
+        const lat = props.currentMarker.marker._latlng.lat;
+        const lng = props.currentMarker.marker._latlng.lng;
+        setLatlng({lat: lat, lng: lng});
+    }
 }, [props.dialogMode]);
 
   return (
@@ -33,21 +97,51 @@ const ChallengeDialog = (props) => {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle className={classes.dialogTitle}>{`Challange Coordinates (${latlng.lat},${latlng.lng})`}</DialogTitle>
+        <Divider />
         <DialogContent>
           <DialogContentText>
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
+            <form className={classes.challengeForm}>
+                <Grid container spacing={4}>
+
+                    <Grid container item xs={12} spacing={3}>
+                        <Grid item s={10}>
+                            <TextField value={challenge.secretkey} onChange={e => setChallenge({...challenge, secretkey: e.target.value}) } size="small" label="Secret Key" variant="outlined"
+                            inputProps={{ className: classes.secretkey }} InputLabelProps={{ shrink: true }} />
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Button variant="contained" className={classes.printButton}></Button>
+                        </Grid>
+                    </Grid>
+                  
+
+                    <Grid container item xs={12} spacing={0}>
+                        <Grid>
+                            <TextField value={challenge.clue} onChange={e => setChallenge({...challenge, clue: e.target.value}) } multiline rows={4} size="small" label="Clue" variant="outlined"
+                            inputProps={{ className: classes.clue }} InputLabelProps={{ shrink: true }} />
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+            </form>
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Disagree
+        <Divider />
+
+        <DialogContent>
+          <DialogContentText>
+
+          <Button className={classes.deleteButton} autoFocus onClick={handleClose} variant="outlined" color="primary">
+              <DeleteIcon/>
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
+          <Button className={classes.closeButton} autoFocus onClick={handleClose} variant="outlined" color="primary" >
+            Close Challenge
           </Button>
-        </DialogActions>
+
+        </DialogContentText>
+        </DialogContent>
+        
+
       </Dialog>
     </div>
   );

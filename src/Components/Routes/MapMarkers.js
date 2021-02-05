@@ -23,7 +23,7 @@ const useStyles = makeStyles( () => ({
 
     const [open, setOpen] = useState(false);
 
-    const [close, setClose] = useState(true);
+    const [currentMarker, setCurrentMarker] = useState();
 
 
     const extendIcon = L.Icon.extend({
@@ -55,13 +55,14 @@ const useStyles = makeStyles( () => ({
 
         const newMarker = {marker: challengeMarker,secretkey:"qrqrq", clue:"hi", url:"dfdfd" }
         props.addMarker(newMarker);
+        setCurrentMarker(newMarker);
       },
       
     });
     // return null;
     return (
       
-      <ChallengeDialog className={classes.dialog} dialogMode={open} onClose={() => setOpen(false)} />
+      <ChallengeDialog className={classes.dialog} currentMarker={currentMarker} dialogMode={open} onClose={() => setOpen(false)} />
       
     );
     // return position === null ? null : (
