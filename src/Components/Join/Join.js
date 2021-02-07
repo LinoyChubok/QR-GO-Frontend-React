@@ -105,6 +105,7 @@ const Join = (props) => {
     useEffect(() => {
       socket.on('message', message => {
         console.log(message);
+        alert(message);
         setMessages(messages => [...messages, message]);
       });
 
