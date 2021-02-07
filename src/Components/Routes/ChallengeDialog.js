@@ -95,7 +95,32 @@ const updateClue = (clue) => {
     }
   )
 }
-      
+
+const imagetoPrint = (qrUrl) => {
+  const newHtmlPage =
+  `<!DOCTYPE html>
+  <html>
+  <head><title>Print QR</title></head>
+  <body>
+  <h1>${`(${challenge.coordinate.latitude},${challenge.coordinate.longitude})`}</h1>
+  <img src='data:image/png;base64, ${qrUrl}'/>
+  <script>
+  document.body.onload = () => {
+      setTimeout('printPopup()', 10);}
+      function printPopup(){window.print();window.close()
+  };
+  </script>
+  </body>
+  </html>`;
+return newHtmlPage;
+}
+
+const handlePrint = () => {
+  const newWindow = window.open();
+  newWindow.document.open();
+  newWindow.document.write(imagetoPrint(challenge.url));
+  newWindow.document.close();
+}
    
   return (
     <div>
@@ -113,11 +138,11 @@ const updateClue = (clue) => {
 
                     <Grid container item xs={12} spacing={3}>
                         <Grid item s={10}>
-                            <TextField value={challenge.secretkey} onChange={e => setChallenge({...challenge, secretkey: e.target.value}) } size="small" label="Secret Key" variant="outlined"
+                            <TextField value={challenge.secretkey} onChange={e => setChallenge({...challenge, secretkey: e.target.value}) } size="small" label="Secret Key" variant="outlined" disabled="true"
                             inputProps={{ className: classes.secretkey }} InputLabelProps={{ shrink: true }} />
                         </Grid>
                         <Grid item xs={2}>
-                            <Button variant="contained" className={classes.printButton}></Button>
+                            <Button className={classes.printButton} onClick={handlePrint} variant="contained"></Button>
                         </Grid>
                     </Grid>
                   
