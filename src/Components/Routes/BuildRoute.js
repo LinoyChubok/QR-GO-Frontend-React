@@ -25,15 +25,15 @@ const BuildRoute = (props) => {
   const classes = useStyles();
 
   const value = queryString.parse(props.location.search);
-  const currentRoute = value.id;
+  const currentRouteId = value.id;
 
   const [routeMode, setRouteMode] = useState(false);
-
+  const [currentRoute, setCurrentRoute] = useState(false);
   
   return( 
       <Paper elevation={3} className={classes.flexContainer}>
-        <RouteForm routeId={currentRoute} routeMode={(mode) => setRouteMode(mode)}/>    
-        <RouteMap routeMode={routeMode} />
+        <RouteForm routeId={currentRouteId} currentRoute={(route) => setCurrentRoute(route)} routeMode={(mode) => setRouteMode(mode)}/>    
+        <RouteMap currentRoute={currentRoute} routeMode={routeMode} />
     </Paper>        
   );   
 }
