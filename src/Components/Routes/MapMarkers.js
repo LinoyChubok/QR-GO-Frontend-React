@@ -19,12 +19,10 @@ const useStyles = makeStyles( () => ({
 
   const MapMarkers = (props) => {
     const classes = useStyles();
-    const [position, setPosition] = useState(null);
 
     const [open, setOpen] = useState(false);
-
-    const [close, setClose] = useState(true);
-
+    const [currentMarker, setCurrentMarker] = useState();
+    const [markerIndex, setMarkerIndex] = useState(1);
 
     const extendIcon = L.Icon.extend({
       options: {
@@ -39,36 +37,49 @@ const useStyles = makeStyles( () => ({
       shadowUrl: QrGoMarkerShadow,
   })
 
+  const addNewMarker = (e, qr) => {
+    const newMarker = new L.marker([e.latlng.lat, e.latlng.lng], {
+      index: markerIndex,
+      icon: myIcon,
+      secretkey: qr.secretkey,
+      url: qr.url,
+      clue: "",
+    }).addTo(map);
+
+    props.addMarker(newMarker);
+
+    newMarker.on({
+      click: () => {
+        setCurrentMarker(newMarker);
+        setOpen(true);
+      },
+    });
+
+    setMarkerIndex(markerIndex + 1);
+  }
+
+  const generateQR = async (e) => {
+    let data =[];
+    try {
+      data = await fetch("https://qr-go.herokuapp.com/api/qr", {method: 'POST'}).then(res => res.json());
+    } catch(err) {
+      console.log("error where fetching data");
+    }
+    if(data) {
+      addNewMarker(e, data);
+    }
+  }
 
     const map = useMapEvents({
       click: (e) => {
-        const { lat, lng } = e.latlng;
-        setPosition(e.latlng)
-        const challengeMarker = new L.marker([lat, lng], {icon: myIcon})
-        challengeMarker.addTo(map);
-
-        challengeMarker.on({
-            click: (e) => {
-              setOpen(true);
-            },
-        });
-
-        const newMarker = {marker: challengeMarker,secretkey:"qrqrq", clue:"hi", url:"dfdfd" }
-        props.addMarker(newMarker);
-      },
-      
+        if( props.routeMode === "Create") {
+          generateQR(e);
+        }
+      },     
     });
-    // return null;
-    return (
-      
-      <ChallengeDialog className={classes.dialog} dialogMode={open} onClose={() => setOpen(false)} />
-      
+
+    return ( 
+      <ChallengeDialog className={classes.dialog} markers={props.markers} currentMarker={currentMarker} routeMode={props.routeMode} dialogMode={open} onClose={() => setOpen(false)} /> 
     );
-    // return position === null ? null : (
-    //   <Marker position={position} icon={myIcon} markerIndex={markerIndex}>
-    //     <Tooltip>hiiiiiiiiiiiiiiiiiiii</Tooltip>
-    //   </Marker>
-    // );
-    
   };
   export default MapMarkers;

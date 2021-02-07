@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import 'leaflet/dist/leaflet.css';
 import queryString from 'query-string'
 
@@ -27,13 +27,13 @@ const BuildRoute = (props) => {
   const value = queryString.parse(props.location.search);
   const currentRoute = value.id;
 
-  
-  const position = [51.505, -0.09]
+  const [routeMode, setRouteMode] = useState(false);
 
+  
   return( 
       <Paper elevation={3} className={classes.flexContainer}>
-        <RouteForm routeId={currentRoute}/>    
-        <RouteMap/>
+        <RouteForm routeId={currentRoute} routeMode={(mode) => setRouteMode(mode)}/>    
+        <RouteMap routeMode={routeMode} />
     </Paper>        
   );   
 }

@@ -1,12 +1,9 @@
 import React, {useState} from 'react';
 import MapMarkers from './MapMarkers'
 import { makeStyles } from '@material-ui/core/styles';
-import { MapContainer, TileLayer, Marker, useMapEvents, Popup, Tooltip } from 'react-leaflet'
-
+import { MapContainer, TileLayer} from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
-import L, { icon } from 'leaflet'
-import QrGoMarker from '../../Images/marker.png' 
-import QrGoMarkerShadow from '../../Images/shadow.png'
+
 
 const useStyles = makeStyles( () => ({
 challengesContainer: {
@@ -26,8 +23,7 @@ challengesContainer: {
 const RouteMap = (props) => {
   const classes = useStyles();
   const [markers, setMarkers] = useState([]);
-  console.log(markers);
-
+console.log(markers)
 
   const handleNewMarker = (newMarker) => {
     setMarkers(prevState => ([
@@ -44,7 +40,7 @@ const RouteMap = (props) => {
               maxZoom='18'
               accessToken= 'pk.eyJ1Ijoic2FnaWNodSIsImEiOiJja2o3b3A4bGc2am5uMnNsYng0Yzg2dm9uIn0.rzN5tPVzLIflz5KXP1yPYw'
             />
-          <MapMarkers addMarker={handleNewMarker}/>
+          <MapMarkers markers={markers} addMarker={handleNewMarker} routeMode={props.routeMode}/>
         </MapContainer>
       </div>
   );   
