@@ -8,7 +8,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import PrintIcon from '@material-ui/icons/Print';
 import DeleteIcon from '@material-ui/icons/Delete';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -64,32 +63,40 @@ const useStyles = makeStyles( (theme) => ({
 }));
 
 const ChallengeDialog = (props) => {
-    const classes = useStyles();
-
-  const [open, setOpen] = useState(false);
+  const classes = useStyles();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
- 
 
-  const [latlng, setLatlng] = useState({lat: "", lng: ""});
-  const [challenge, setChallenge] = useState({ id: "", latlng: "", secretkey: "", clue: "" , url: ""});
-
-
-
+  const [open, setOpen] = useState(false);
+  const [challenge, setChallenge] = useState({ index: "", coordinate: {longitude: "", latitude: ""}, secretkey: "", url: "", clue: ""});
+  
   const handleClose = () => {
     props.onClose(false);
   };
 
+  const getCurrentMarker = () => {
+    if(props.currentMarker) {
+      setChallenge({ index: props.currentMarker.options.index, coordinate: {longitude: props.currentMarker._latlng.lng, latitude: props.currentMarker._latlng.lat}, secretkey: props.currentMarker.options.secretkey, url: props.currentMarker.options.url, clue: props.currentMarker.options.clue})
+    }
+  };
   
   useEffect(() => { 
     setOpen(props.dialogMode);
-    if(props.currentMarker) {
-        const lat = props.currentMarker.marker._latlng.lat;
-        const lng = props.currentMarker.marker._latlng.lng;
-        setLatlng({lat: lat, lng: lng});
-    }
+    getCurrentMarker();
 }, [props.dialogMode]);
 
+const updateClue = (clue) => {
+  props.markers.map (
+    marker => {
+      if(marker.options.index === challenge.index) {
+        marker.options.clue = clue;
+      }
+      return marker;
+    }
+  )
+}
+      
+   
   return (
     <div>
       <Dialog open={open}
@@ -97,7 +104,7 @@ const ChallengeDialog = (props) => {
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle className={classes.dialogTitle}>{`Challange Coordinates (${latlng.lat},${latlng.lng})`}</DialogTitle>
+        <DialogTitle className={classes.dialogTitle}>{`Challange Coordinates (${challenge.coordinate.latitude},${challenge.coordinate.longitude})`}</DialogTitle>
         <Divider />
         <DialogContent>
           <DialogContentText>
@@ -114,10 +121,9 @@ const ChallengeDialog = (props) => {
                         </Grid>
                     </Grid>
                   
-
                     <Grid container item xs={12} spacing={0}>
                         <Grid>
-                            <TextField value={challenge.clue} onChange={e => setChallenge({...challenge, clue: e.target.value}) } multiline rows={4} size="small" label="Clue" variant="outlined"
+                            <TextField value={challenge.clue} onChange={(e) => { updateClue(e.target.value); setChallenge({...challenge, clue: e.target.value}); }}  multiline rows={4} size="small" label="Clue" variant="outlined"
                             inputProps={{ className: classes.clue }} InputLabelProps={{ shrink: true }} />
                         </Grid>
                     </Grid>
@@ -141,7 +147,6 @@ const ChallengeDialog = (props) => {
         </DialogContentText>
         </DialogContent>
         
-
       </Dialog>
     </div>
   );

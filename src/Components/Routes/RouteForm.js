@@ -69,12 +69,13 @@ const RouteForm = (props) => {
             } catch(err) {
             console.log("error where fetching data");
             }
-            
+            props.routeMode("Edit");
             setRoute({ id: data.route._id, routeName: data.route.routeName, district: data.route.district, description: data.route.description , image: data.route.image, challengesAmount: data.route.challengesAmount, challenges: data.route.challenges});
             setTitle("Edit Specific Route");
             setButtonText("Confirm");     
         }
         else {
+            props.routeMode("Create");
             setTitle("Create a New Route");
             setButtonText("Save");     
         }
