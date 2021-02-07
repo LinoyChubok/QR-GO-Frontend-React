@@ -70,10 +70,34 @@ const useStyles = makeStyles( () => ({
     }
   }
 
+  const addMarkerEditMode = (e, qr) => {
+    const newMarker = new L.marker([e.latlng.lat, e.latlng.lng], {
+      index: markerIndex,
+      icon: myIcon,
+      secretkey: qr.secretkey,
+      url: qr.url,
+      clue: "",
+    }).addTo(map);
+
+    props.addMarker(newMarker);
+
+    newMarker.on({
+      click: () => {
+        setCurrentMarker(newMarker);
+        setOpen(true);
+      },
+    });
+
+    setMarkerIndex(markerIndex + 1);
+  }
+
     const map = useMapEvents({
       click: (e) => {
         if( props.routeMode === "Create") {
           generateQR(e);
+        }
+        else if( props.routeMode === "Edit" ) {
+          addMarkerEditMode()
         }
       },     
     });

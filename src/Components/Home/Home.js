@@ -5,6 +5,8 @@
         import { makeStyles } from '@material-ui/core/styles';
         import sideImage from '../../Images/ipad-iphone-qrgo.png'
 
+        const site_url = "https://qr-go.netlify.app";
+        // http://localhost:3001/
         const useStyles = makeStyles( (theme) => ({
             mainContainer: {
                 marginTop: '15%',
@@ -37,25 +39,25 @@
             const fetchData = async (userId) => {
                 let data;
                 try {
-                  data = await fetch(`http://qr-go.herokuapp.com/api/users/${userId}`).then(res => res.json());
+                  data = await fetch(`https://qr-go.herokuapp.com/api/users/${userId}`).then(res => res.json());
                 } catch(err) {
                     console.log(err);
                   console.log("error where fetching data");
                 }
                 localStorage.setItem("qr-go-user", JSON.stringify(data.user));
                 if(data.user.role === "admin") {
-                    window.location.assign('http://localhost:3001/games');
+                    window.location.assign(`${site_url}/games`);
                 }
                 else if(data.user.role === "player") {
-                    window.location.assign('http://localhost:3001/join');
+                    window.location.assign(`${site_url}/join`);
                 }
                 else {
-                    window.location.assign('http://localhost:3001/');
+                    window.location.assign(site_url);
                 }
             }
 
             const googleButtonClick = () => {
-                window.location.assign('http://qr-go.herokuapp.com/auth/google');
+                window.location.assign('https://qr-go.herokuapp.com/auth/google');
             }
         
             const renderHome = () => {           
@@ -93,6 +95,6 @@
             );
         }
 
-        return  user ? ( user.role === "player" ? window.location.assign('http://localhost:3001/join') : ( user.role === "admin" ?  window.location.assign('http://localhost:3001/games') : renderHome())) : renderHome();
+        return  user ? ( user.role === "player" ? window.location.assign(`${site_url}/join`) : ( user.role === "admin" ?  window.location.assign(`${site_url}/games`) : renderHome())) : renderHome();
     }
         export default Home;

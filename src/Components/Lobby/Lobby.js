@@ -119,10 +119,7 @@ const Lobby = (props) => {
                 </div>
             </BounceInDiv>
             <div className={classes.playersContainer}>
-                <FadeInDiv> <Avatar className={classes.avatar} alt="" src="https://lh4.googleusercontent.com/-xm7yIDCBjFQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckD_dGR7hju-kihX9d_mZAhoeDLNA/s96-c/photo.jpg"  /></FadeInDiv>
-                <FadeInDiv> <Avatar className={classes.avatar} alt="" src="https://lh4.googleusercontent.com/-xm7yIDCBjFQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckD_dGR7hju-kihX9d_mZAhoeDLNA/s96-c/photo.jpg"  /></FadeInDiv>
-                <FadeInDiv> <Avatar className={classes.avatar} alt="" src="https://lh4.googleusercontent.com/-xm7yIDCBjFQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckD_dGR7hju-kihX9d_mZAhoeDLNA/s96-c/photo.jpg" /></FadeInDiv>
-            
+            <FadeInDiv> <Avatar className={classes.avatar} alt="" src={props.user.image} /></FadeInDiv>            
                 {/* { routes.map(eachAvatar) } */}
             </div>
             <Button className={classes.startButton} variant="contained">Start Game!</Button>
