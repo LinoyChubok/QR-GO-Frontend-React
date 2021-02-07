@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import queryString from 'query-string'
+import io from "socket.io-client";
 import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 
+const ENDPOINT = 'http://localhost:3000/';
+let socket;
 
-const useStyles = makeStyles( (theme) => ({
-    wrapper: {
+const useStyles = makeStyles((theme) => ({
+  wrapper: {
     display: 'flex',
     flexWrap: 'wrap',
     flexDirection: 'column',
@@ -41,6 +42,15 @@ const useStyles = makeStyles( (theme) => ({
     textAlign: 'center',
     color: '#707070',
   },
+  waitSentence: {
+    width: '400px',
+    height: '40px',
+    lineHeight: '40px',
+    fontWeight: 500,
+    fontSize: '22px',
+    textAlign: 'center',
+    color: '#707070',
+  },
   playersContainer: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -51,13 +61,13 @@ const useStyles = makeStyles( (theme) => ({
     marginTop: '40px',
   },
   gamePinInput: {
-    marginTop: 130,
+    marginTop: 75,
     marginBottom: 20,
     width: 300,
     height: 30,
     backgroundColor: 'white',
     borderRadius: 5,
-    border: "2px solid #693fd3",     
+    border: "2px solid #693fd3",
     textAlign: "center",
   },
   joinButton: {
@@ -70,21 +80,77 @@ const useStyles = makeStyles( (theme) => ({
     textTransform: 'none',
     fontWeight: 1000,
   },
-  }));
+}));
 
 const Join = (props) => {
+    const [gamePin, setGamePin] = useState('');
+    const [users, setUsers] = useState('');
+    const [joinClicked, setJoinClicked] = useState(0);
+
+    const [messages, setMessages] = useState([]);
+
+    const user = { googleId: props.user.googleId, name: props.user.displayName, image: props.user.image};
+
+    useEffect(() => {
+      socket = io(ENDPOINT);
+      
+      return () => {
+        socket.emit('disconnect');
+        socket.off();
+      }
+    
+    }, []);
+
+    useEffect(() => {
+      socket.on('message', message => {
+        console.log(message);
+        setMessages(messages => [...messages, message]);
+      });
+
+      socket.on("roomData", ({ users }) => {
+        console.log(users);
+        setUsers(users);
+      });
+    }, []);
+
+    const handleJoinGame = (e) => {
+      e.preventDefault();
+      socket.emit('playerJoinGame', { user, gamePin }, (error) => {
+        if (error) {
+          alert(error);
+        }
+        else {
+          setJoinClicked(1);
+        }
+      });
+    }
+
     const classes = useStyles();
- 
+
+    const renderBeforeJoin= () => {
+      return (
+        <div className={classes.wrapper}>
+          <div className={classes.startText}>
+              <Typography  className={classes.playerName}>{`Hello ${props.user.firstName},`}</Typography>
+              <Typography className={classes.sentence}>Ready for a new adventure?</Typography>
+          </div>
+          <InputBase classes={{ input: classes.gamePinInput }} onChange={(e => setGamePin(e.target.value))} value={gamePin} placeholder="Game PIN" label="Outlined" variant="outlined"/>
+          <Button className={classes.joinButton} onClick={handleJoinGame} variant="contained">Join!</Button>
+        </div>    
+      );
+  } 
   
+  const renderAfterJoin= () => {
     return (
       <div className={classes.wrapper}>
         <div className={classes.startText}>
-            <Typography  className={classes.playerName}>{`Hello ${props.user.firstName},`}</Typography>
-            <Typography className={classes.sentence}>The game is about to start. Please enter the game PIN below.</Typography>
+            <Typography className={classes.waitSentence}>Waiting for Admin to start the game...</Typography>
+            <div className="loader"></div>
         </div>
-        <InputBase classes={{ input: classes.gamePinInput }} placeholder="Game PIN" label="Outlined" variant="outlined"/>
-        <Button className={classes.joinButton} variant="contained">Join!</Button>
       </div>    
     );
+  }
+
+  return joinClicked ? renderAfterJoin() : renderBeforeJoin() ;
   }
   export default Join;

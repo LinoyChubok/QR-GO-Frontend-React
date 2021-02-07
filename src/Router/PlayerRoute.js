@@ -4,7 +4,7 @@ import { Redirect, Route } from 'react-router-dom';
 const PlayerRoute = ({ component: Component, user, ...rest }) => {  
   return(
     <Route {...rest} render={(props) => (
-       user ? (  user.role === "player" ?  <Component {...props} /> : (<Redirect to={{path: '/', state: {from: props.location}}} />) ) : (<Redirect to={{path: '/', state: {from: props.location}}} />)
+       user ? (  user.role === "player" ?  <Component {...props} user={user} /> : (<Redirect to={{path: '/', state: {from: props.location}}} />) ) : (<Redirect to={{path: '/', state: {from: props.location}}} />)
     )}
     />
   );

@@ -44,13 +44,13 @@
                 }
                 localStorage.setItem("qr-go-user", JSON.stringify(data.user));
                 if(data.user.role === "admin") {
-                    window.location.assign('http://localhost:3000/games');
+                    window.location.assign('http://localhost:3001/games');
                 }
                 else if(data.user.role === "player") {
-                    window.location.assign('http://localhost:3000/join');
+                    window.location.assign('http://localhost:3001/join');
                 }
                 else {
-                    window.location.assign('http://localhost:3000/');
+                    window.location.assign('http://localhost:3001/');
                 }
             }
 
@@ -93,6 +93,6 @@
             );
         }
 
-        return  user ? ( user.role === "player" ? window.location.assign('http://localhost:3000/join') : ( user.role === "admin" ?  window.location.assign('http://localhost:3000/games') : renderHome())) : renderHome();
+        return  user ? ( user.role === "player" ? window.location.assign('http://localhost:3001/join') : ( user.role === "admin" ?  window.location.assign('http://localhost:3001/games') : renderHome())) : renderHome();
     }
         export default Home;

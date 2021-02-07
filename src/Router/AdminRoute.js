@@ -4,7 +4,7 @@ import { Redirect, Route } from 'react-router-dom';
 const AdminRoute = ({ component: Component, user, ...rest }) => {  
   return(
     <Route {...rest} render={(props) => (
-       user ? (  user.role === "admin" ?  <Component {...props} /> : (<Redirect to={{path: '/', state: {from: props.location}}} />) ) : (<Redirect to={{path: '/', state: {from: props.location}}} />)
+       user ? (  user.role === "admin" ?  <Component {...props} user={user} /> : (<Redirect to={{path: '/', state: {from: props.location}}} />) ) : (<Redirect to={{path: '/', state: {from: props.location}}} />)
     )}
     />
   );

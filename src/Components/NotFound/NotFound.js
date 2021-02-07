@@ -34,7 +34,7 @@ const NotFound = () => {
         <Typography variant="h1">404</Typography>
         <Typography variant="h4">OOPS, SORRY WE CAN'T FIND THAT PAGE!</Typography>
         <Typography variant="h6">Either something went wrong or the page doesn't exist anymore.</Typography>
-        <Button component={Link} exact to="/" variant="contained" size="large" className={classes.HomeButton}>Home Page</Button>
+        <Button component={Link} exact to="/" variant="contained" size="large" className={classes.HomeButton}>RETURN</Button>
       </div>      
     );
   }

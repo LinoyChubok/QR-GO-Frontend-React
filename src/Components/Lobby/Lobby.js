@@ -91,8 +91,6 @@ const Lobby = (props) => {
         getSpecificGame();
     }, []);
 
-    
-
     const getSpecificGame = async () => {
         const value = queryString.parse(props.location.search);
         const gameId = value.id;

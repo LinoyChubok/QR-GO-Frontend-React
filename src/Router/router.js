@@ -15,7 +15,7 @@ import PlayerRoute from './PlayerRoute'
 const ReactRouter = () => {
 
   const [user] = useLocalStorage('user');
-
+  
   return (
       <Switch>
         <Route exact path="/" render={props => <Home {...props} />}/>
@@ -25,7 +25,7 @@ const ReactRouter = () => {
         <AdminRoute exact path="/game" component={BuildGame} user={user}/>
         <AdminRoute exact path="/lobby" component={Lobby} user={user}/>
         <PlayerRoute exact path="/join"  component={Join} user={user}/>
-        <Route path='*' render={props =><NotFound {...props} />} />
+        <Route path='*' render={props => <NotFound {...props} />} />
       </Switch>
   );
 }
