@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
+import PersonIcon from '@material-ui/icons/Person';
 import styled, { keyframes } from 'styled-components';
 import { fadeIn, bounceIn } from 'react-animations'
 
@@ -14,7 +14,7 @@ let socket;
 
 const fadeInAnimation = keyframes`${fadeIn}`;
 const FadeInDiv = styled.div`
-  animation: 4s ${fadeInAnimation};
+  animation: 3s ${fadeInAnimation};
 `;
 
 const bounceInAnimation = keyframes`${bounceIn}`;
@@ -24,13 +24,15 @@ const BounceInDiv = styled.div`
 
 const useStyles = makeStyles( (theme) => ({
     wrapper: {
+    width: '90%',
+    margin: '0px auto',
+  },
+  lobbyContainer: {
     display: 'flex',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '90%',
-    height: '100%',
-    margin: '0px auto',
+    justifyContent: 'center',
   },
   gamePinContainer: {
     position: 'relative',
@@ -65,10 +67,9 @@ const useStyles = makeStyles( (theme) => ({
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'center',
-    width: '900px',
+    width: '100%',
     minHeight: '200px',
-    // backgroundColor: 'white',
-    marginTop: '40px',
+    marginTop: '10px',
   },
   avatar: {
     width: theme.spacing(7),
@@ -85,11 +86,26 @@ const useStyles = makeStyles( (theme) => ({
     textTransform: 'none',
     fontWeight: 1000,
   },
+  playersCountContainer: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginTop: '40px',
+  },
+  personIcon: {
+    fontSize: '36px',
+    color: '#693fd3',
+  },
+  playersCount: {
+    fontSize: '25px',
+    fontWeight: 600,
+  }
   }));
 
 const Lobby = (props) => {
     const [game, setGame] = useState({id: "", route: "", createdAt: "", gameTimeHours: "",  gameTimeMinutes: "", groupsAmount: "", gamePin: "", state: ""});
     const [users, setUsers] = useState([]);
+    const [playersCount, setPlayersCount] = useState(0);
 
     useEffect(() => { 
         getSpecificGame();
@@ -106,6 +122,7 @@ const Lobby = (props) => {
       socket.on("roomData", ({ users }) => {
         console.log(users);
         setUsers(users);
+        setPlayersCount(users.length())
       });
     }, []);
 
@@ -137,16 +154,22 @@ const Lobby = (props) => {
 
     return (
       <div className={classes.wrapper}>
+        <div className={classes.lobbyContainer}>
+          <div className={classes.gamePinContainer}>
             <BounceInDiv>
-                <div className={classes.gamePinContainer}>
-                    <Typography  className={classes.textGamePin}>Game PIN:</Typography>
-                    <Typography className={classes.gamePin}>{game.gamePin}</Typography>
-                </div>
+              <Typography  className={classes.textGamePin}>Game PIN:</Typography>
+              <Typography className={classes.gamePin}>{game.gamePin}</Typography>
             </BounceInDiv>
-            <Button className={classes.startButton} variant="contained">Start Game!</Button>
-            <div className={classes.playersContainer}>
-                { users.map(eachAvatar) }
-            </div>
+          </div>
+          <div className={classes.playersCountContainer}>
+            <PersonIcon className={classes.personIcon}/>
+            <Typography className={classes.playersCount}>{playersCount}</Typography>
+          </div>
+          <div className={classes.playersContainer}>
+              { users.map(eachAvatar) }
+          </div>
+          <Button className={classes.startButton} variant="contained">Start Game!</Button>
+        </div>
       </div>    
     );
   }

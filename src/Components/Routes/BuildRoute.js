@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import 'leaflet/dist/leaflet.css';
 import queryString from 'query-string'
 
@@ -29,6 +29,10 @@ const BuildRoute = (props) => {
 
   const [routeMode, setRouteMode] = useState(false);
   const [currentRoute, setCurrentRoute] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   
   return( 
       <Paper elevation={3} className={classes.flexContainer}>

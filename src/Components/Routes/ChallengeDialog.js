@@ -138,7 +138,7 @@ const handlePrint = () => {
 
                     <Grid container item xs={12} spacing={3}>
                         <Grid item s={10}>
-                            <TextField value={challenge.secretkey} onChange={e => setChallenge({...challenge, secretkey: e.target.value}) } size="small" label="Secret Key" variant="outlined" disabled="true"
+                            <TextField value={challenge.secretkey} onChange={e => setChallenge({...challenge, secretkey: e.target.value}) } size="small" label="Secret Key" variant="outlined" disabled={true}
                             inputProps={{ className: classes.secretkey }} InputLabelProps={{ shrink: true }} />
                         </Grid>
                         <Grid item xs={2}>
