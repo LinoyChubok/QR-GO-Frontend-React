@@ -9,6 +9,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import styled, { keyframes } from 'styled-components';
 import { fadeIn, bounceIn } from 'react-animations'
 
+// const ENDPOINT = 'https://qr-go.herokuapp.com/';
 const ENDPOINT = 'http://localhost:3000/';
 let socket;
 
@@ -122,7 +123,7 @@ const Lobby = (props) => {
       socket.on("roomData", ({ users }) => {
         console.log(users);
         setUsers(users);
-        setPlayersCount(users.length())
+        setPlayersCount(users.length)
       });
     }, []);
 

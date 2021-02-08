@@ -6,7 +6,7 @@
         import sideImage from '../../Images/ipad-iphone-qrgo.png'
 
         //const site_url = "https://qr-go.netlify.app";
-        const site_url = "http://localhost:3000";
+        const site_url = "http://localhost:3001";
         
         const useStyles = makeStyles( (theme) => ({
             mainContainer: {
