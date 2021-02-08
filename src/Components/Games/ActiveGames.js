@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-
+import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles';
-import Game from './Game'
 import { Paper } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -11,6 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Typography from '@material-ui/core/Typography';
 
+import Game from './Game'
 
 const useStyles = makeStyles( () => ({
   table: {
@@ -42,7 +42,7 @@ const ActiveGames = (props) => {
     } catch(err) {
       console.log("error where fetching data");
     }
-    data.games.map(game => add({id: game._id, route: game.route, createdAt: game.createdAt, gameTime: game.gameTime, groupsAmount: game.groupsAmount, gamePin: game.gamePin, state: game.state}))
+    data.games.map(game => add({id: game._id, route: game.route, createdAt: moment(game.createdAt).format('YYYY/MM/DD'), gameTime: game.gameTime, groupsAmount: game.groupsAmount, gamePin: game.gamePin, state: game.state}))
   }
 
   const nextId = (activeGames = []) => {    

@@ -190,8 +190,7 @@ const Lobby = (props) => {
          <Dialog
          open={open}
          aria-labelledby="alert-dialog-title"
-         aria-describedby="alert-dialog-description"
-       >
+         aria-describedby="alert-dialog-description">
          <DialogTitle id="alert-dialog-title">{"Uh-oh! Something went wrong"}</DialogTitle>
          <DialogContent>
            <DialogContentText id="alert-dialog-description">
