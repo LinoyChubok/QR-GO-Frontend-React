@@ -17,7 +17,7 @@ const App = ( {children} ) => {
     const currentPath = location.pathname;
 
     if(user) {
-      if( ((currentPath === '/join' || currentPath === '/join/') && user.role === 'player') || ((currentPath === '/lobby' || currentPath === '/lobby/') && user.role === 'admin' )) {
+      if( ((currentPath === '/join' || currentPath === '/join/') && user.role === 'player') || ((currentPath === '/play' || currentPath === '/play/') && user.role === 'player') || ((currentPath === '/lobby' || currentPath === '/lobby/') && user.role === 'admin' )) {
         SetHeaderMode("LogoutOnlyHeader");
         SetBgColor('#f2edf3');
       }

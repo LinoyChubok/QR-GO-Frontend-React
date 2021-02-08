@@ -55,6 +55,17 @@ const useStyles = makeStyles( (theme) => ({
         right: '20px',
         top: '12px'
     },
+    bigLogo: {
+        backgroundImage:`url(${logo})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        width: '120px',
+        height: '120px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: '20px'
+      },
  
   }));
 
@@ -107,7 +118,7 @@ const Header = (props) => {
     const renderLogoutOnlyHeader= () => {
         return (
             <Toolbar>
-                <BounceInDiv id="lobbyLogo"></BounceInDiv>
+                <BounceInDiv className={classes.bigLogo}></BounceInDiv>
                 <Button className={classes.logout} variant="contained" onClick={logoutButtonClick} >LOGOUT</Button>
             </Toolbar>
         ); 
