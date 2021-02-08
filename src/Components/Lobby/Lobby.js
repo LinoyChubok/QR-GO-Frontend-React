@@ -8,6 +8,11 @@ import Button from '@material-ui/core/Button';
 import PersonIcon from '@material-ui/icons/Person';
 import styled, { keyframes } from 'styled-components';
 import { fadeIn, bounceIn } from 'react-animations'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 // const ENDPOINT = 'https://qr-go.herokuapp.com/';
 const ENDPOINT = 'http://localhost:3000/';
@@ -107,6 +112,7 @@ const Lobby = (props) => {
     const [game, setGame] = useState({id: "", route: "", createdAt: "", gameTimeHours: "",  gameTimeMinutes: "", groupsAmount: "", gamePin: "", state: ""});
     const [users, setUsers] = useState([]);
     const [playersCount, setPlayersCount] = useState(0);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => { 
         getSpecificGame();
@@ -146,7 +152,7 @@ const Lobby = (props) => {
             });    
         } else
         {
-          
+          setOpen(true)
         }
 
     }
@@ -157,25 +163,64 @@ const Lobby = (props) => {
   
     const classes = useStyles();
 
-    return (
-      <div className={classes.wrapper}>
-        <div className={classes.lobbyContainer}>
-          <div className={classes.gamePinContainer}>
-            <BounceInDiv>
-              <Typography  className={classes.textGamePin}>Game PIN:</Typography>
-              <Typography className={classes.gamePin}>{game.gamePin}</Typography>
-            </BounceInDiv>
+    const lobby = () => {
+      return (
+        <div className={classes.wrapper}>
+          <div className={classes.lobbyContainer}>
+            <div className={classes.gamePinContainer}>
+              <BounceInDiv>
+                <Typography  className={classes.textGamePin}>Game PIN:</Typography>
+                <Typography className={classes.gamePin}>{game.gamePin}</Typography>
+              </BounceInDiv>
+            </div>
+            <div className={classes.playersCountContainer}>
+              <PersonIcon className={classes.personIcon}/>
+              <Typography className={classes.playersCount}>{playersCount}</Typography>
+            </div>
+            <div className={classes.playersContainer}>
+                { users.map(eachAvatar) }
+            </div>
+            <Button className={classes.startButton} variant="contained">Start Game!</Button>
           </div>
-          <div className={classes.playersCountContainer}>
-            <PersonIcon className={classes.personIcon}/>
-            <Typography className={classes.playersCount}>{playersCount}</Typography>
+        </div>    
+      );
+    }
+    const errorLobby = () => {
+      return (
+        <>
+        <div className={classes.wrapper}>
+          <div className={classes.lobbyContainer}>
+            <div className={classes.gamePinContainer}>
+              <BounceInDiv>
+                <Typography  className={classes.textGamePin}>Game PIN:</Typography>
+                <Typography className={classes.gamePin}>{game.gamePin}</Typography>
+              </BounceInDiv>
+            </div>
+            <div className={classes.playersCountContainer}>
+              <PersonIcon className={classes.personIcon}/>
+              <Typography className={classes.playersCount}>{playersCount}</Typography>
+            </div>
+            <div className={classes.playersContainer}>
+                { users.map(eachAvatar) }
+            </div>
+            <Button className={classes.startButton} variant="contained">Start Game!</Button>
           </div>
-          <div className={classes.playersContainer}>
-              { users.map(eachAvatar) }
-          </div>
-          <Button className={classes.startButton} variant="contained">Start Game!</Button>
         </div>
-      </div>    
-    );
+         <Dialog
+         open={open}
+         aria-labelledby="alert-dialog-title"
+         aria-describedby="alert-dialog-description"
+       >
+         <DialogTitle id="alert-dialog-title">{"Uh-oh! Something went wrong"}</DialogTitle>
+         <DialogContent>
+           <DialogContentText id="alert-dialog-description">
+           Unfortunately, QR GO has stopped working because of an unexpected error. We're sorry for the inconvenience!
+           </DialogContentText>
+         </DialogContent>
+       </Dialog>   
+       </> 
+      );
+    }
+    return open ? errorLobby() : lobby();
   }
   export default Lobby;
