@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ActiveGames from './ActiveGames'
 import PastGames from './PastGames'
@@ -23,12 +23,15 @@ const useStyles = makeStyles( () => ({
     textDecoration: 'none',
     marginBottom: 30,
   }
-  
-  }));
+}));
 
 const GamesTables = () => {
     const classes = useStyles();
     
+    useEffect(() => { 
+      window.scrollTo(0, 0);
+    }, []);
+
     return (
       <div className={classes.tablesContainer}>
         <Button component={Link} to="/game" variant="contained" size="large" className={classes.createButton}>Create a New Game</Button>

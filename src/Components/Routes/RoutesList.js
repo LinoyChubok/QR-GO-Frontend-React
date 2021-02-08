@@ -64,6 +64,7 @@ const RoutesList = (props) => {
   const [routes, setRoutes] = useState([]);
 
   useEffect(() => { 
+    window.scrollTo(0, 0);
     fetchData();
   }, []);
 

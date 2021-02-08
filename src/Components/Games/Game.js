@@ -3,6 +3,7 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import BarChartIcon from '@material-ui/icons/BarChart';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { Link } from 'react-router-dom'
 import TableCell from '@material-ui/core/TableCell';
@@ -32,10 +33,9 @@ import TableRow from '@material-ui/core/TableRow';
     color: 'white',
     marginLeft: 10,
   },
-  empty: {
-    paddingRight: 166,
+  singleButton: {
+    paddingRight: 116,
   }
-  
 }));
 
 const Game = (props) => {
@@ -47,7 +47,7 @@ const Game = (props) => {
       props.onClickDeleteBtn(props.game.id);
     };
 
-    const gameWithActions = () => {
+    const activeGames = () => {
       return (
         <StyledTableRow key={props.game.id}>
             <StyledTableCell component="th" scope="row">{props.game.createdAt}</StyledTableCell>
@@ -56,12 +56,12 @@ const Game = (props) => {
             <StyledTableCell align="left"> {`${props.game.gameTime.hours}h ${props.game.gameTime.minutes}m`} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.state} </StyledTableCell>
             <StyledTableCell align="left"> 
-              <Link className={classes.link} to={`/lobby?id=${props.game.id}`} target="_blank">
+              <Link to={`/lobby?id=${props.game.id}`} target="_blank">
                 <IconButton className={classes.gameButton} size="small">
                   <PlayArrowIcon />
                 </IconButton>
               </Link>
-              <Link className={classes.link} to={`/game?id=${props.game.id}`}>
+              <Link to={`/game?id=${props.game.id}`}>
                 <IconButton className={classes.gameButton} size="small">
                     <EditIcon />
                 </IconButton>
@@ -73,7 +73,7 @@ const Game = (props) => {
         </StyledTableRow>
       );
     }
-    const gameWithoutActions = () => {
+    const pastGames = () => {
       return (
         <StyledTableRow key={props.game.id}>
             <StyledTableCell component="th" scope="row">{props.game.createdAt}</StyledTableCell>
@@ -81,12 +81,18 @@ const Game = (props) => {
             <StyledTableCell align="left"> {props.game.groupsAmount} </StyledTableCell>
             <StyledTableCell align="left"> {`${props.game.gameTime.hours}h ${props.game.gameTime.minutes}m`} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.state} </StyledTableCell>
-            <StyledTableCell className={classes.empty} align="left"></StyledTableCell>
+            <StyledTableCell className={classes.singleButton} align="left">
+              <Link to={'/statistics'} target="_blank">
+                <IconButton className={classes.gameButton} size="small">
+                  <BarChartIcon />
+                </IconButton>
+              </Link>
+            </StyledTableCell>
         </StyledTableRow>
       );
     }
 
-    return gameStatus === "Pregame" ? gameWithActions() : gameWithoutActions();
+    return gameStatus === "Pregame" ? activeGames() : pastGames();
     
   }
   export default Game;

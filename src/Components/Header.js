@@ -108,7 +108,6 @@ const Header = (props) => {
                     <Tabs value={value} onChange={handleChange} className={classes.tabs} classes={{ indicator: classes.indicator }} indicatorColor="secondary" textColor="primary" centered>
                         <Tab component={NavLink} to="/games" className={classes.tab} label="Games" />
                         <Tab component={NavLink} to="/routes" className={classes.tab} label="Routes" />
-                        <Tab component={NavLink} to="/statistics" className={classes.tab} label="Statistics" />
                     </Tabs>
                     <Button className={classes.logout} variant="contained" onClick={logoutButtonClick} >LOGOUT</Button>
                 </Toolbar>
