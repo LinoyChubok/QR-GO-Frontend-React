@@ -5,8 +5,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 
-// const ENDPOINT = 'https://qr-go.herokuapp.com/';
-const ENDPOINT = 'http://localhost:3000/';
+// const ENDPOINT = 'https://qr-go.herokuapp.com';
+const ENDPOINT = 'http://localhost:3000';
+
+//const site_url = "https://qr-go.netlify.app";
+const site_url = "http://localhost:3001";
+
 let socket;
 
 const useStyles = makeStyles((theme) => ({
@@ -85,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Join = (props) => {
     const [gamePin, setGamePin] = useState('');
+    const [gameArea, setGameArea] = useState('');
     const [joinClicked, setJoinClicked] = useState(0);
 
     const user = { googleId: props.user.googleId, name: props.user.displayName, image: props.user.image};
@@ -98,9 +103,20 @@ const Join = (props) => {
       }
     }, []);
 
+    useEffect(() => {
+      socket.on("gameArea", ({ area }) => {
+        setGameArea(area);
+      });
+
+      socket.on("joinAgain", () => {
+        window.location.assign(`${site_url}/join`);
+      });
+
+    }, []);
+
     const handleJoinGame = (e) => {
       e.preventDefault();
-      socket.emit('playerJoinGame', { user, gamePin }, (error) => {
+      socket.emit('playerJoinLobby', { playerData: user, gamePin }, (error) => {
         if (error) {
           alert(error);
         }
@@ -129,7 +145,7 @@ const Join = (props) => {
     return (
       <div className={classes.wrapper}>
         <div className={classes.startText}>
-            <Typography className={classes.waitSentence}>Waiting for Admin to start the game...</Typography>
+            <Typography className={classes.waitSentence}>Waiting for Admin to start the game at {gameArea}...</Typography>
             <div className="loader"></div>
         </div>
       </div>    

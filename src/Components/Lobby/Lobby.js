@@ -105,7 +105,7 @@ const useStyles = makeStyles( (theme) => ({
 
 const Lobby = (props) => {
     const [game, setGame] = useState({id: "", route: "", createdAt: "", gameTimeHours: "",  gameTimeMinutes: "", groupsAmount: "", gamePin: "", state: ""});
-    const [users, setUsers] = useState([]);
+    const [players, setPlayers] = useState([]);
     const [playersCount, setPlayersCount] = useState(0);
 
     useEffect(() => { 
@@ -120,10 +120,9 @@ const Lobby = (props) => {
     }, []);
 
     useEffect(() => {
-      socket.on("roomData", ({ users }) => {
-        console.log(users);
-        setUsers(users);
-        setPlayersCount(users.length)
+      socket.on("lobbyData", ({ players }) => {
+        setPlayers(players);
+        setPlayersCount(players.length)
       });
     }, []);
 
@@ -139,7 +138,7 @@ const Lobby = (props) => {
             }
             setGame({id: data.game._id, route: data.game.route, createdAt: data.game.createdAt, gameTimeHours: data.game.gameTime.hours, gameTimeMinutes: data.game.gameTime.minutes, groupsAmount: data.game.groupsAmount, gamePin: data.game.gamePin, state: data.game.state});      
             
-            socket.emit('adminJoinGame', { room: gameId }, (error) => {
+            socket.emit('adminJoinLobby', { room: gameId }, (error) => {
               if (error) {
                 alert(error);
               }
@@ -171,7 +170,7 @@ const Lobby = (props) => {
             <Typography className={classes.playersCount}>{playersCount}</Typography>
           </div>
           <div className={classes.playersContainer}>
-              { users.map(eachAvatar) }
+              { players.map(eachAvatar) }
           </div>
           <Button className={classes.startButton} variant="contained">Start Game!</Button>
         </div>
