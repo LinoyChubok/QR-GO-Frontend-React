@@ -84,10 +84,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Join = (props) => {
     const [gamePin, setGamePin] = useState('');
-    const [users, setUsers] = useState('');
     const [joinClicked, setJoinClicked] = useState(0);
-
-    const [messages, setMessages] = useState([]);
 
     const user = { googleId: props.user.googleId, name: props.user.displayName, image: props.user.image};
 
@@ -98,19 +95,6 @@ const Join = (props) => {
         socket.emit('disconnect');
         socket.off();
       }
-    
-    }, []);
-
-    useEffect(() => {
-      socket.on('message', message => {
-        console.log(message);
-        setMessages(messages => [...messages, message]);
-      });
-
-      socket.on("roomData", ({ users }) => {
-        console.log(users);
-        setUsers(users);
-      });
     }, []);
 
     const handleJoinGame = (e) => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import io from "socket.io-client";
 import queryString from 'query-string'
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -7,6 +8,9 @@ import Button from '@material-ui/core/Button';
 
 import styled, { keyframes } from 'styled-components';
 import { fadeIn, bounceIn } from 'react-animations'
+
+const ENDPOINT = 'http://localhost:3000/';
+let socket;
 
 const fadeInAnimation = keyframes`${fadeIn}`;
 const FadeInDiv = styled.div`
@@ -74,7 +78,7 @@ const useStyles = makeStyles( (theme) => ({
   startButton: {
     color: '#ffffff',
     borderRadius: '8px',
-    marginTop: '15px',
+    marginTop: '35px',
     border: `1px solid #693fd3`,
     background: '#693fd3',
     fontSize: '20px',
@@ -84,11 +88,25 @@ const useStyles = makeStyles( (theme) => ({
   }));
 
 const Lobby = (props) => {
-    const classes = useStyles();
     const [game, setGame] = useState({id: "", route: "", createdAt: "", gameTimeHours: "",  gameTimeMinutes: "", groupsAmount: "", gamePin: "", state: ""});
+    const [users, setUsers] = useState([]);
 
     useEffect(() => { 
         getSpecificGame();
+
+        socket = io(ENDPOINT);
+      
+        return () => {
+          socket.emit('disconnect');
+          socket.off();
+        }
+    }, []);
+
+    useEffect(() => {
+      socket.on("roomData", ({ users }) => {
+        console.log(users);
+        setUsers(users);
+      });
     }, []);
 
     const getSpecificGame = async () => {
@@ -101,16 +119,23 @@ const Lobby = (props) => {
             } catch(err) {
             console.log("error where fetching data");
             }
-            setGame({id: data.game._id, route: data.game.route, createdAt: data.game.createdAt, gameTimeHours: data.game.gameTime.hours, gameTimeMinutes: data.game.gameTime.minutes, groupsAmount: data.game.groupsAmount, gamePin: data.game.gamePin, state: data.game.state});            
+            setGame({id: data.game._id, route: data.game.route, createdAt: data.game.createdAt, gameTimeHours: data.game.gameTime.hours, gameTimeMinutes: data.game.gameTime.minutes, groupsAmount: data.game.groupsAmount, gamePin: data.game.gamePin, state: data.game.state});      
+            
+            socket.emit('adminJoinGame', { room: gameId }, (error) => {
+              if (error) {
+                alert(error);
+              }
+            });    
         }
     }
 
     const eachAvatar = (item, index) => {
-        return  (<Avatar key={item.id} index={index} alt="" src="" className={classes.large} />)
+        return  (<FadeInDiv><Avatar key={item.id} index={index} alt="" src={item.image} className={classes.avatar} /></FadeInDiv>)
     };
   
-    return (
+    const classes = useStyles();
 
+    return (
       <div className={classes.wrapper}>
             <BounceInDiv>
                 <div className={classes.gamePinContainer}>
@@ -118,15 +143,10 @@ const Lobby = (props) => {
                     <Typography className={classes.gamePin}>{game.gamePin}</Typography>
                 </div>
             </BounceInDiv>
-            <div className={classes.playersContainer}>
-                <FadeInDiv> <Avatar className={classes.avatar} alt="" src="https://lh4.googleusercontent.com/-xm7yIDCBjFQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckD_dGR7hju-kihX9d_mZAhoeDLNA/s96-c/photo.jpg"  /></FadeInDiv>
-                <FadeInDiv> <Avatar className={classes.avatar} alt="" src="https://lh4.googleusercontent.com/-xm7yIDCBjFQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckD_dGR7hju-kihX9d_mZAhoeDLNA/s96-c/photo.jpg"  /></FadeInDiv>
-                <FadeInDiv> <Avatar className={classes.avatar} alt="" src="https://lh4.googleusercontent.com/-xm7yIDCBjFQ/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuckD_dGR7hju-kihX9d_mZAhoeDLNA/s96-c/photo.jpg" /></FadeInDiv>
-            
-                {/* { routes.map(eachAvatar) } */}
-            </div>
             <Button className={classes.startButton} variant="contained">Start Game!</Button>
-
+            <div className={classes.playersContainer}>
+                { users.map(eachAvatar) }
+            </div>
       </div>    
     );
   }
