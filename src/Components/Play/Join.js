@@ -56,15 +56,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     color: '#707070',
   },
-  playersContainer: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '900px',
-    minHeight: '200px',
-    marginTop: '40px',
-  },
   gamePinInput: {
     marginTop: 75,
     marginBottom: 20,

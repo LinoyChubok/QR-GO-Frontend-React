@@ -35,7 +35,6 @@ const useStyles = makeStyles( (theme) => ({
         minWidth: '40px',
         maxHeight: '40px',
         minHeight: '40px'
-
     },
     clue: {
         backgroundColor: 'white',

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { NavLink } from 'react-router-dom'
 import logo from '../Images/logo.png'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import styled, { keyframes } from 'styled-components';
 import { bounceIn } from 'react-animations'
@@ -26,12 +28,22 @@ const useStyles = makeStyles( (theme) => ({
     customAppBar: {
         backgroundColor: '#ffffff',
     },
-    ToolbarItem: {
+    tabs: {
+	    marginLeft: '30px',
+    },
+    tab: {
         borderRadius: '8px',
-	    marginLeft: '50px',
 	    color: '#693fd3',
+        fontSize: '15px',
         fontWeight: 'bold',
         textDecoration: 'none',
+        textTransform: 'none',
+        '&.Mui-selected': {
+            color: '#693fd3'
+        }
+    },
+    indicator: {
+        backgroundColor: '#693fd3',
     },
     logout: {
         color: '#693fd3',
@@ -42,13 +54,30 @@ const useStyles = makeStyles( (theme) => ({
         position: 'absolute',
         right: '20px',
         top: '12px'
-    }
+    },
+    bigLogo: {
+        backgroundImage:`url(${logo})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        width: '120px',
+        height: '120px',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginTop: '20px'
+      },
+ 
   }));
 
 const Header = (props) => {
     const classes = useStyles();
     const header = props.changeHeader;
-    
+    const [value, setValue] = useState(0);
+
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
+
     const logoutButtonClick = () => {
         localStorage.clear();
         window.location.assign('https://qr-go.herokuapp.com/auth/logout');
@@ -60,10 +89,12 @@ const Header = (props) => {
             <AppBar className={classes.customAppBar}>
                 <Toolbar>
                     <div className={classes.logo}></div>
-                    <NavLink className={classes.ToolbarItem} exact to="/">Get Started</NavLink>
-                    <NavLink className={classes.ToolbarItem} exact to="/">How It Works</NavLink>
-                    <NavLink className={classes.ToolbarItem} exact to="/">About Us</NavLink>
-                    <NavLink className={classes.ToolbarItem} exact to="/">Contact</NavLink>
+                    <Tabs value={value} onChange={handleChange} className={classes.tabs} classes={{ indicator: classes.indicator }} indicatorColor="secondary" textColor="primary" centered>
+                        <Tab component={NavLink} exact={true} to="/" className={classes.tab} label="Get Started" />
+                        <Tab component={NavLink} exact={true} to="/" className={classes.tab} label="How It Works" />
+                        <Tab component={NavLink} exact={true} to="/" className={classes.tab} label="About Us" />
+                        <Tab component={NavLink} exact={true} to="/" className={classes.tab} label="Contact" />
+                    </Tabs>
                 </Toolbar>
             </AppBar>
         ); 
@@ -74,9 +105,11 @@ const Header = (props) => {
             <AppBar className={classes.customAppBar}>
                 <Toolbar>
                     <div className={classes.logo}></div>
-                    <NavLink className={classes.ToolbarItem} exact to="/games">Games</NavLink>
-                    <NavLink className={classes.ToolbarItem} exact to="/routes">Routes</NavLink>
-                    <NavLink className={classes.ToolbarItem} exact to="/statistics">Statistics</NavLink>
+                    <Tabs value={value} onChange={handleChange} className={classes.tabs} classes={{ indicator: classes.indicator }} indicatorColor="secondary" textColor="primary" centered>
+                        <Tab component={NavLink} to="/games" className={classes.tab} label="Games" />
+                        <Tab component={NavLink} to="/routes" className={classes.tab} label="Routes" />
+                        <Tab component={NavLink} to="/statistics" className={classes.tab} label="Statistics" />
+                    </Tabs>
                     <Button className={classes.logout} variant="contained" onClick={logoutButtonClick} >LOGOUT</Button>
                 </Toolbar>
             </AppBar>
@@ -85,7 +118,7 @@ const Header = (props) => {
     const renderLogoutOnlyHeader= () => {
         return (
             <Toolbar>
-                <BounceInDiv id="lobbyLogo"></BounceInDiv>
+                <BounceInDiv className={classes.bigLogo}></BounceInDiv>
                 <Button className={classes.logout} variant="contained" onClick={logoutButtonClick} >LOGOUT</Button>
             </Toolbar>
         ); 
