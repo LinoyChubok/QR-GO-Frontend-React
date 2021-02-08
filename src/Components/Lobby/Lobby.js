@@ -143,7 +143,11 @@ const Lobby = (props) => {
                 alert(error);
               }
             });    
+        } else
+        {
+          
         }
+
     }
 
     const eachAvatar = (item, index) => {
