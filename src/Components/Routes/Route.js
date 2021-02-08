@@ -61,7 +61,7 @@ const useStyles = makeStyles( () => ({
   },
   link: {
     textDecoration: 'none',
-    color: 'grey'
+    color: '#303030',
   }
   }));
 

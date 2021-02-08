@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import ribbon from '../../Images/ribbon.svg'
 import MobileStepper from '@material-ui/core/MobileStepper';
-import StepLabel from '@material-ui/core/StepLabel';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +19,14 @@ const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: '20px',
     width: '85vw',
-    height: '400px'
+    minHeight: '400px'
+  },
+  time: {
+    textAlign: 'center',
+    marginTop: '20px',
+    fontSize: '20px',
+    fontWeight: 'bold',
+    color: '#303030',
   },
   ribbon: {
     position: 'relative',
@@ -29,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '280px',
-    height: '130px',
+    height: '120px',
     marginLeft: 'auto',
     marginRight: 'auto',
     marginTop: '20px',
@@ -37,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   groupName: {
     position: 'absolute',
     textAlign: 'center',
-    marginTop: '20px',
+    marginTop: '15px',
     color: 'white',
     left: '90px',
     top: '12px',
@@ -48,14 +54,17 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     fontSize: '25px',
     fontWeight: 'bold',
+    color: '#303030',
     width: '80%',
-    /////
-    height: '40%',
+    minHeight: '150px',
     margin: '0px auto',
-    // backgroundColor:'pink',
+    marginTop: '-20px',
+    wordWrap: 'break-word', 
   },
   stepperContainer: {
-    marginTop: '30px'
+    marginTop: '20px',
+    marginBottom: '10px'
+
   },
   stepper: {
     position: 'relative',
@@ -67,11 +76,11 @@ const useStyles = makeStyles((theme) => ({
   linearProgress: {
     width: '100%',
   },
-  challenge: {
+  challengesCounter: {
     textAlign: 'center',
     marginTop: '5px',
-    color: 'gray',
-    fontSize: '16px',
+    color: '#3f51b5',
+    fontSize: '18px',
     fontWeight: 'bold',
   },
   
@@ -86,15 +95,16 @@ const PlayGame = (props) => {
       return (
         <div className={classes.wrapper}>
             <Paper elevation={3} className={classes.container}>
+                <Typography className={classes.time}>Remaining Time: 01:24:05</Typography>
                 <div className={classes.ribbon}>
                     <Typography className={classes.groupName}>Group A</Typography>
                 </div>
-                <Typography className={classes.clue}>The wind is blow</Typography>
+                <Typography className={classes.clue}>clue</Typography>
 
                 <div className={classes.stepperContainer}>
                     <MobileStepper className={classes.stepper} steps={6} variant="progress" activeStep={activeStep} position="static" backButton={null} nextButton={null}
                     LinearProgressProps={{ className: classes.linearProgress }}/>
-                    <Typography className={classes.challenge}>1 / 4</Typography>
+                    <Typography className={classes.challengesCounter}>1 / 4</Typography>
                 </div>
             </Paper>
         </div>    
