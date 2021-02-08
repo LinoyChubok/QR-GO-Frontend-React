@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import ChallengeDialog from './ChallengeDialog'
 import { MapContainer, TileLayer, Marker, useMapEvents, Popup, Tooltip } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css';
@@ -24,6 +24,8 @@ const useStyles = makeStyles( () => ({
     const [currentMarker, setCurrentMarker] = useState();
     const [markerIndex, setMarkerIndex] = useState(1);
 
+    console.log("markerindex: " + markerIndex);
+
     const extendIcon = L.Icon.extend({
       options: {
       iconSize:     [30, 38], // size of the icon
@@ -36,6 +38,53 @@ const useStyles = makeStyles( () => ({
       iconUrl: QrGoMarker,
       shadowUrl: QrGoMarkerShadow,
   })
+
+  useEffect(() => { 
+    if( props.routeMode === "Edit" ) {
+      addMarkerEditMode(props.currentRoute.challenges);
+      flyToDistrict(props.currentRoute.district)
+    }
+  }, [props.currentRoute]);
+
+  const flyToDistrict = (district) => {
+    if (district === "Northern District") {
+      const lat = 32.8972;
+      const lng = 35.3027;
+      map.flyTo([lat, lng], 10, {
+        duration: 3,
+      });
+    } else if (district === "Haifa District") {
+      const lat = 32.7014;
+      const lng = 34.9948;
+      map.flyTo([lat, lng], 10.5, {
+        duration: 3,
+      });
+    } else if (district === "Central District") {
+      const lat = 32.1021;
+      const lng = 34.80366;
+      map.flyTo([lat, lng], 10.5, {
+        duration: 3,
+      });
+    } else if (district === "Tel Aviv District") {
+      const lat = 32.1024253;
+      const lng = 34.7557067;
+      map.flyTo([lat, lng], 11.5, {
+        duration: 3,
+      });
+    } else if (district === "Jerusalem District") {
+      const lat = 31.7427993;
+      const lng = 35.0526076;
+      map.flyTo([lat, lng], 11, {
+        duration: 3,
+      });
+    } else if (district === "Southern District") {
+      const lat = 30.3378277;
+      const lng = 34.807793;
+      map.flyTo([lat, lng], 8, {
+        duration: 3,
+      });
+    }
+  }
 
   const addNewMarker = (e, qr) => {
     const newMarker = new L.marker([e.latlng.lat, e.latlng.lng], {
@@ -70,11 +119,43 @@ const useStyles = makeStyles( () => ({
     }
   }
 
+  const addMarkerEditMode = (challenges) => {
+    let currentIndex = 1;
+    challenges.map (
+      challenge => {
+        const newMarker = new L.marker([challenge.coordinate.latitude, challenge.coordinate.longitude], {
+          index: currentIndex++,
+          icon: myIcon,
+          secretkey: challenge.qrData,
+          url: challenge.qrUrl,
+          clue: challenge.clue,
+        }).addTo(map);
+
+        props.addMarker(newMarker);
+
+        newMarker.on({
+          click: () => {
+            setCurrentMarker(newMarker);
+            setOpen(true);
+          },
+        });
+    
+        return challenge;
+      }
+    )
+    setMarkerIndex(currentIndex);
+  }
+
+  
+
     const map = useMapEvents({
       click: (e) => {
         if( props.routeMode === "Create") {
           generateQR(e);
         }
+        if( props.routeMode === "Edit") {
+          generateQR(e);
+        }    
       },     
     });
 

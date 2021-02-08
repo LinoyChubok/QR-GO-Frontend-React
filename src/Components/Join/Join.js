@@ -5,7 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 
-const ENDPOINT = 'http://localhost:3000/';
+const ENDPOINT = 'https://qr-go.herokuapp.com/';
+// http://localhost:3000/
 let socket;
 
 const useStyles = makeStyles((theme) => ({

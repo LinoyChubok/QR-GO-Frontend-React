@@ -116,8 +116,8 @@ return newHtmlPage;
 }
 
 const handlePrint = () => {
-  const newWindow = window.open();
-  newWindow.document.open();
+  const newWindow = window.open('_blank', 'noopener,noreferrer')
+  if (newWindow) newWindow.opener = null
   newWindow.document.write(imagetoPrint(challenge.url));
   newWindow.document.close();
 }
