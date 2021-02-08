@@ -9,7 +9,6 @@ import PersonIcon from '@material-ui/icons/Person';
 import styled, { keyframes } from 'styled-components';
 import { fadeIn, bounceIn } from 'react-animations'
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -110,8 +109,9 @@ const useStyles = makeStyles( (theme) => ({
 
 const Lobby = (props) => {
     const [game, setGame] = useState({id: "", route: "", createdAt: "", gameTimeHours: "",  gameTimeMinutes: "", groupsAmount: "", gamePin: "", state: ""});
-    const [users, setUsers] = useState([]);
+    const [players, setPlayers] = useState([]);
     const [playersCount, setPlayersCount] = useState(0);
+    const [error, setError] = useState("Unfortunately, QR GO has stopped working because of an unexpected error. We're sorry for the inconvenience!");
     const [open, setOpen] = useState(false);
 
     useEffect(() => { 
@@ -126,10 +126,9 @@ const Lobby = (props) => {
     }, []);
 
     useEffect(() => {
-      socket.on("roomData", ({ users }) => {
-        console.log(users);
-        setUsers(users);
-        setPlayersCount(users.length)
+      socket.on("lobbyData", ({ players }) => {
+        setPlayers(players);
+        setPlayersCount(players.length)
       });
     }, []);
 
@@ -140,21 +139,21 @@ const Lobby = (props) => {
             let data =[];
             try {
             data = await fetch(`https://qr-go.herokuapp.com/api/games/${gameId}`).then(res => res.json());
-            } catch(err) {
-            console.log("error where fetching data");
-            }
+
             setGame({id: data.game._id, route: data.game.route, createdAt: data.game.createdAt, gameTimeHours: data.game.gameTime.hours, gameTimeMinutes: data.game.gameTime.minutes, groupsAmount: data.game.groupsAmount, gamePin: data.game.gamePin, state: data.game.state});      
             
-            socket.emit('adminJoinGame', { room: gameId }, (error) => {
+            socket.emit('adminJoinLobby', { room: gameId }, (error) => {
               if (error) {
-                alert(error);
+                setError(error);
+                setOpen(true);
               }
             });    
-        } else
-        {
-          setOpen(true)
-        }
 
+            } catch(err) {
+              setOpen(true);
+            }
+
+        } else setOpen(true);
     }
 
     const eachAvatar = (item, index) => {
@@ -178,7 +177,7 @@ const Lobby = (props) => {
               <Typography className={classes.playersCount}>{playersCount}</Typography>
             </div>
             <div className={classes.playersContainer}>
-                { users.map(eachAvatar) }
+                { players.map(eachAvatar) }
             </div>
             <Button className={classes.startButton} variant="contained">Start Game!</Button>
           </div>
@@ -188,24 +187,6 @@ const Lobby = (props) => {
     const errorLobby = () => {
       return (
         <>
-        <div className={classes.wrapper}>
-          <div className={classes.lobbyContainer}>
-            <div className={classes.gamePinContainer}>
-              <BounceInDiv>
-                <Typography  className={classes.textGamePin}>Game PIN:</Typography>
-                <Typography className={classes.gamePin}>{game.gamePin}</Typography>
-              </BounceInDiv>
-            </div>
-            <div className={classes.playersCountContainer}>
-              <PersonIcon className={classes.personIcon}/>
-              <Typography className={classes.playersCount}>{playersCount}</Typography>
-            </div>
-            <div className={classes.playersContainer}>
-                { users.map(eachAvatar) }
-            </div>
-            <Button className={classes.startButton} variant="contained">Start Game!</Button>
-          </div>
-        </div>
          <Dialog
          open={open}
          aria-labelledby="alert-dialog-title"
@@ -214,7 +195,7 @@ const Lobby = (props) => {
          <DialogTitle id="alert-dialog-title">{"Uh-oh! Something went wrong"}</DialogTitle>
          <DialogContent>
            <DialogContentText id="alert-dialog-description">
-           Unfortunately, QR GO has stopped working because of an unexpected error. We're sorry for the inconvenience!
+             {error}
            </DialogContentText>
          </DialogContent>
        </Dialog>   
