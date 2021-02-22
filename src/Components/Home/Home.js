@@ -6,8 +6,12 @@
         import sideImage from '../../Images/ipad-iphone-qrgo.png'
 
         //const site_url = "https://qr-go.netlify.app";
-        const site_url = "http://localhost:3000";
+        const site_url = "http://localhost:3001";
         
+        // const service_url = "https://qr-go.herokuapp.com";
+        const service_url = "http://localhost:3000";
+
+
         const useStyles = makeStyles( (theme) => ({
             mainContainer: {
                 marginTop: '15%',
@@ -40,7 +44,7 @@
             const fetchData = async (userId) => {
                 let data;
                 try {
-                  data = await fetch(`https://qr-go.herokuapp.com/api/users/${userId}`).then(res => res.json());
+                  data = await fetch(`${service_url}/api/users/${userId}`).then(res => res.json());
                 } catch(err) {
                     console.log(err);
                   console.log("error where fetching data");
@@ -58,7 +62,7 @@
             }
 
             const googleButtonClick = () => {
-                window.location.assign('https://qr-go.herokuapp.com/auth/google');
+                window.location.assign(`${service_url}/auth/google`);
             }
         
             const renderHome = () => {           
