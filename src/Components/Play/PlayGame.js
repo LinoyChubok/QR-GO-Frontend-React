@@ -103,14 +103,13 @@ const PlayGame = (props) => {
     
     const [gameData, setGameData] = useState({ groupName: "", clue: "", currentChallenge: null, challenges: null , endTime: null});
 
-    console.log(gameData);
-
     useEffect(() => { 
 
       socket = io(ENDPOINT);
 
       socket.emit('playerJoinGame', { id: props.user._id }, (error) => {
         if (error) {
+          console.log(error);
           setOpen(true);
         }
       });   
@@ -162,8 +161,7 @@ const PlayGame = (props) => {
                 <Typography className={classes.challengesCounter}> {gameData.currentChallenge} / {gameData.challenges}</Typography>
             </div>
         </Paper>
-        
-        <Countdown date={moment(gameData.endTime).format('YYYY/MM/DD')} renderer={renderer}/>
+        <Countdown date={moment(gameData.endTime).format()} renderer={renderer}/>
       </div>);   
     }
 
