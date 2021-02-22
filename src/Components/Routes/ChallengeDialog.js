@@ -75,7 +75,7 @@ const ChallengeDialog = (props) => {
 
   const getCurrentMarker = () => {
     if(props.currentMarker) {
-      setChallenge({ index: props.currentMarker.options.index, coordinate: {longitude: props.currentMarker._latlng.lng, latitude: props.currentMarker._latlng.lat}, secretkey: props.currentMarker.options.secretkey, url: props.currentMarker.options.url, clue: props.currentMarker.options.clue})
+      setChallenge({ index: props.currentMarker.options.index, coordinate: {longitude: props.currentMarker.getLatLng().lng, latitude: props.currentMarker.getLatLng().lat}, secretkey: props.currentMarker.options.secretkey, url: props.currentMarker.options.url, clue: props.currentMarker.options.clue})
     }
   };
   
@@ -161,7 +161,7 @@ const handlePrint = () => {
         <DialogContent>
           <DialogContentText>
 
-          <Button className={classes.deleteButton} autoFocus onClick={handleClose} variant="outlined" color="primary">
+          <Button className={classes.deleteButton} autoFocus onClick={() => props.removeMarker(challenge.index)} variant="outlined" color="primary">
               <DeleteIcon/>
           </Button>
           <Button className={classes.closeButton} autoFocus onClick={handleClose} variant="outlined" color="primary" >

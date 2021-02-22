@@ -24,8 +24,6 @@ const useStyles = makeStyles( () => ({
     const [currentMarker, setCurrentMarker] = useState();
     const [markerIndex, setMarkerIndex] = useState(1);
 
-    console.log("markerindex: " + markerIndex);
-
     const extendIcon = L.Icon.extend({
       options: {
       iconSize:     [30, 38], // size of the icon
@@ -146,7 +144,21 @@ const useStyles = makeStyles( () => ({
     setMarkerIndex(currentIndex);
   }
 
-  
+  const removeMarker = (markerIndex) => {
+    console.log("markerIndex", markerIndex)
+    console.log("props.markers", props.markers)
+
+    props.markers.map (
+      marker => {
+        if(marker.options.index === markerIndex) {
+          map.removeLayer(marker);   
+          props.removeMarker(markerIndex);
+          setOpen(false)
+        }
+        return marker;
+      }
+    )
+  }
 
     const map = useMapEvents({
       click: (e) => {
@@ -159,8 +171,10 @@ const useStyles = makeStyles( () => ({
       },     
     });
 
+   
+
     return ( 
-      <ChallengeDialog className={classes.dialog} markers={props.markers} currentMarker={currentMarker} routeMode={props.routeMode} dialogMode={open} onClose={() => setOpen(false)} /> 
+      <ChallengeDialog className={classes.dialog} markers={props.markers} currentMarker={currentMarker} routeMode={props.routeMode} removeMarker={removeMarker} dialogMode={open} onClose={() => setOpen(false)} /> 
     );
   };
   export default MapMarkers;

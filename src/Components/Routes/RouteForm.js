@@ -51,14 +51,21 @@ const useStyles = makeStyles( () => ({
 
 const RouteForm = (props) => {
     const classes = useStyles();
-    const [route, setRoute] = useState({ id: "", routeName: "", district: "", description: "" , image: "", challengesAmount: null, challenges: []});
+    const [route, setRoute] = useState({ id: "", routeName: "", district: "", description: "" , image: "", challengesAmount: null, challenges: [{qrData: "", qrUrl: "", clue: "", coordinate: {longitude: "", latitude: ""} }]});
       
     const [title, setTitle] = useState();
     const [buttonText, setButtonText] = useState();
 
+
     useEffect(() => { 
         getSpecificRoute();
     }, []);
+
+    useEffect(() => { 
+        if(props.challenges.length > 0) {
+           setRoute({...route, challengesAmount: props.challenges.length, challenges: props.challenges} )
+        }
+    }, [props.challenges]);
 
       const getSpecificRoute = async () => {
         const id = props.routeId  
@@ -79,6 +86,65 @@ const RouteForm = (props) => {
             props.routeMode("Create");
             setTitle("Create a New Route");
             setButtonText("Save");     
+        }
+    }
+
+    const handleFormButtonClick = () => {
+        let challenges = [];
+        route.challenges.map (
+            challenge => {
+                const coordinate = {
+                    longitude : challenge.getLatLng().lng,
+                    latitude : challenge.getLatLng().lat
+                };
+                const newChallenge = {
+                    qrData : challenge.options.secretkey,
+                    qrUrl : challenge.options.url,
+                    clue : challenge.options.clue,
+                    coordinate,
+                };
+                challenges.push(newChallenge);
+
+              return challenge;
+            }
+          )
+
+        const body = {
+            routeName: route.routeName,
+            district: route.district,
+            description: route.description,
+            image: route.image,
+            challengesAmount: route.challengesAmount,
+            challenges
+        }
+
+        if(buttonText === "Save") {
+            // Handle save route
+            fetch(`https://qr-go.herokuapp.com/api/routes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    window.location.assign('https://qr-go.netlify.app/routes');
+                })
+        }
+        else if(buttonText === "Confirm") {
+            // Handle edit route
+            fetch(`https://qr-go.herokuapp.com/api/routes/${route.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    window.location.assign('https://qr-go.netlify.app/routes');
+                })
         }
     }
 
@@ -131,7 +197,7 @@ const RouteForm = (props) => {
 
                 <Grid container item xs={4} spacing={0}>
                     <Grid>
-                        <Button variant="contained" size="large" className={classes.formButton}>{buttonText}</Button>
+                        <Button variant="contained" size="large" onClick={handleFormButtonClick} className={classes.formButton}>{buttonText}</Button>
                     </Grid>
                 </Grid> 
             </Grid>

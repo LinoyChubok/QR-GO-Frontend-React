@@ -23,14 +23,20 @@ challengesContainer: {
 const RouteMap = (props) => {
   const classes = useStyles();
   const [markers, setMarkers] = useState([]);
-  
-console.log(markers)
-
+  props.challenges(markers);
 
   const handleNewMarker = (newMarker) => {
     setMarkers(prevState => ([
       ...prevState, newMarker
     ]));
+  }
+
+  const handleRemoveMarker = (markerIndex) => {
+    console.log("markerIndexinRouteMap", markerIndex)
+    console.log("markers", markers)
+    setMarkers(prevState => (
+      prevState.filter((marker, i) => marker.options.index !== markerIndex)
+  ))
   }
 
   return( 
@@ -42,7 +48,7 @@ console.log(markers)
               maxZoom='18'
               accessToken= 'pk.eyJ1Ijoic2FnaWNodSIsImEiOiJja2o3b3A4bGc2am5uMnNsYng0Yzg2dm9uIn0.rzN5tPVzLIflz5KXP1yPYw'
             />
-          <MapMarkers markers={markers} addMarker={handleNewMarker} routeMode={props.routeMode} currentRoute={props.currentRoute}/>
+          <MapMarkers markers={markers} addMarker={handleNewMarker} removeMarker={handleRemoveMarker} routeMode={props.routeMode} currentRoute={props.currentRoute}/>
         </MapContainer>
       </div>
   );   
