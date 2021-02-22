@@ -61,7 +61,7 @@ const BuildGame = (props) => {
     const [title, setTitle] = useState();
     const [buttonText, setButtonText] = useState();
     const [routes, setRoutes] = useState([]);
-    
+    console.log(game)
  
     useEffect(() => { 
         fetchRoutesData();
@@ -99,6 +99,8 @@ const BuildGame = (props) => {
         }
         setRoutes(data.routes);
     };
+
+    
 
     return(
         <Paper elevation={3} className={classes.container}>

@@ -23,9 +23,7 @@ challengesContainer: {
 const RouteMap = (props) => {
   const classes = useStyles();
   const [markers, setMarkers] = useState([]);
-  
-console.log(markers)
-
+  props.challenges(markers);
 
   const handleNewMarker = (newMarker) => {
     setMarkers(prevState => ([

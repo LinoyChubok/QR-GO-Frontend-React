@@ -75,7 +75,7 @@ const ChallengeDialog = (props) => {
 
   const getCurrentMarker = () => {
     if(props.currentMarker) {
-      setChallenge({ index: props.currentMarker.options.index, coordinate: {longitude: props.currentMarker._latlng.lng, latitude: props.currentMarker._latlng.lat}, secretkey: props.currentMarker.options.secretkey, url: props.currentMarker.options.url, clue: props.currentMarker.options.clue})
+      setChallenge({ index: props.currentMarker.options.index, coordinate: {longitude: props.currentMarker.getLatLng().lng, latitude: props.currentMarker.getLatLng().lat}, secretkey: props.currentMarker.options.secretkey, url: props.currentMarker.options.url, clue: props.currentMarker.options.clue})
     }
   };
   

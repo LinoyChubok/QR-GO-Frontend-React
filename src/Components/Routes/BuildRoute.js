@@ -29,6 +29,7 @@ const BuildRoute = (props) => {
 
   const [routeMode, setRouteMode] = useState(false);
   const [currentRoute, setCurrentRoute] = useState(false);
+  const [challenges, setChallenges] = useState([]);
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -36,8 +37,8 @@ const BuildRoute = (props) => {
   
   return( 
       <Paper elevation={3} className={classes.flexContainer}>
-        <RouteForm routeId={currentRouteId} currentRoute={(route) => setCurrentRoute(route)} routeMode={(mode) => setRouteMode(mode)}/>    
-        <RouteMap currentRoute={currentRoute} routeMode={routeMode} />
+        <RouteForm routeId={currentRouteId} currentRoute={(route) => setCurrentRoute(route)} routeMode={(mode) => setRouteMode(mode)} challenges={challenges}/>    
+        <RouteMap currentRoute={currentRoute} routeMode={routeMode} challenges={(markers) => setChallenges(markers)} />
     </Paper>        
   );   
 }
