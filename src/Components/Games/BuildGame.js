@@ -100,7 +100,46 @@ const BuildGame = (props) => {
         setRoutes(data.routes);
     };
 
-    
+    const handleFormButtonClick = () => {
+        const gameTime = {
+            hours: game.gameTimeHours,
+            minutes: game.gameTimeMinutes
+        }
+        const body = {
+            route: game.route._id,
+            groupsAmount: game.groupsAmount,
+            gameTime
+        }
+
+        if(buttonText === "Save") {
+            // Handle save game
+            fetch(`https://qr-go.herokuapp.com/api/games`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    window.location.assign('https://qr-go.netlify.app/games');
+                })
+        }
+        else if(buttonText === "Confirm") {
+            // Handle edit game
+            fetch(`https://qr-go.herokuapp.com/api/games/${game.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            })
+                .then(response => response.json())
+                .then(result => {
+                    window.location.assign('https://qr-go.netlify.app/games');
+                })
+        }
+    }
 
     return(
         <Paper elevation={3} className={classes.container}>
@@ -156,7 +195,7 @@ const BuildGame = (props) => {
 
                     <Grid container item xs={4} spacing={0}>
                         <Grid>
-                            <Button variant="contained" size="large" className={classes.formButton}>{buttonText}</Button>
+                            <Button variant="contained" size="large" onClick={handleFormButtonClick} className={classes.formButton}>{buttonText}</Button>
                         </Grid>
                     </Grid> 
                 </Grid>
