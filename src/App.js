@@ -1,8 +1,10 @@
 import './App.css';
 import Header from './Components/Header';
+import HeaderMobile from './Components/HeaderMobile';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import useLocalStorage from './hooks/useLocalStorage'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 const App = ( {children} ) => {
@@ -12,6 +14,9 @@ const App = ( {children} ) => {
   const [bgColor, SetBgColor] = useState();
   const [headerMode, SetHeaderMode] = useState();
   const [user] = useLocalStorage('user');
+  
+  const matches = useMediaQuery('(max-width:800px)');
+  console.log(matches)
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -19,16 +24,13 @@ const App = ( {children} ) => {
     if(user) {
       if( ((currentPath === '/join' || currentPath === '/join/') && user.role === 'player') || ((currentPath === '/play' || currentPath === '/play/') && user.role === 'player') || ((currentPath === '/lobby' || currentPath === '/lobby/') && user.role === 'admin' )) {
         SetHeaderMode("LogoutOnlyHeader");
-        SetBgColor('#f2edf3');
       }
       else if(user.role === 'admin' && 
       ((currentPath === '/games' || currentPath === '/games/') || (currentPath === '/game' || currentPath === '/game/') ||
        (currentPath === '/routes' || currentPath === '/routes/') || (currentPath === '/route' || currentPath === '/route/') || (currentPath === '/statistics' || currentPath === '/statistics/'))){
         SetHeaderMode("AdminHeader");
-        SetBgColor('#f2edf3');
       } else {
         SetHeaderMode("NotFoundHeader");
-        SetBgColor('white');
       } 
     }
     else if (currentPath === '/') {
@@ -37,16 +39,26 @@ const App = ( {children} ) => {
     }
     else {
       SetHeaderMode("NotFoundHeader");
-      SetBgColor('white');
     }
   }, [location.pathname]);
 
-  return (
-    <div style={{ background: bgColor}} id="main">
-      <Header changeHeader={headerMode}/>
-      {children}
-    </div>
-  );
+  const desktopUI = () => {
+    return (
+        <div style={{ background: bgColor}} id='main'>
+          <Header changeHeader={headerMode}/>
+          {children}
+        </div>
+      );
+  }
+  const mobileUI = () => {
+    return (
+        <div style={{ background: bgColor}} id='main'>
+          <HeaderMobile changeHeader={headerMode}/>
+          {children}
+        </div>
+      );
+    }
+  return matches ? mobileUI() : desktopUI()
 }
 
 export default App;

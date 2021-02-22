@@ -12,6 +12,9 @@
             mainContainer: {
                 marginTop: '15%',
                 float: 'left',
+                [theme.breakpoints.down('sm')]: {
+                    marginTop: '35%',
+                },
             },
             textContainer: {
                 marginBottom: '2%',

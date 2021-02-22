@@ -19,14 +19,13 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     flexDirection: 'column',
     alignItems: 'center',
-    width: '90%',
+    width: '100%',
     height: '100%',
     margin: '0px auto',
   },
   startText: {
     position: 'relative',
     top: '50px',
-    marginRight: '1%',
   },
   playerName: {
     width: '160px',
