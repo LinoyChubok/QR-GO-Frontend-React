@@ -12,6 +12,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Tooltip from '@material-ui/core/Tooltip';
 
 // const ENDPOINT = 'https://qr-go.herokuapp.com/';
 const ENDPOINT = 'http://localhost:3000/';
@@ -157,9 +158,22 @@ const Lobby = (props) => {
     }
 
     const eachAvatar = (item, index) => {
-        return  (<FadeInDiv><Avatar key={item.id} index={index} alt="" src={item.image} className={classes.avatar} /></FadeInDiv>)
+        return  (<FadeInDiv>
+          <Tooltip title={item.name} arrow>
+          <Avatar key={item.id} index={index} alt="" src={item.image} className={classes.avatar} />
+          </Tooltip>
+          </FadeInDiv>)
     };
-  
+
+    const handleStartGame = (e) => {
+      e.preventDefault();
+      socket.emit('startGame', { room: game.gameId }, (error) => {
+        if (error) {
+         alert(error)
+        }
+      });    
+    }
+
     const classes = useStyles();
 
     const lobby = () => {
@@ -179,7 +193,7 @@ const Lobby = (props) => {
             <div className={classes.playersContainer}>
                 { players.map(eachAvatar) }
             </div>
-            <Button className={classes.startButton} variant="contained">Start Game!</Button>
+            <Button className={classes.startButton} onClick={handleStartGame} variant="contained">Start Game!</Button>
           </div>
         </div>    
       );

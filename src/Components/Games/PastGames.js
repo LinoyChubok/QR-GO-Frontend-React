@@ -91,7 +91,7 @@ const PastGames = (props) => {
                 <TableRow>
                     <TableCell style={{fontWeight: "bold"}} align="left">Created</TableCell>
                     <TableCell style={{fontWeight: "bold"}} align="left">Route</TableCell>
-                    <TableCell style={{fontWeight: "bold"}} align="left">Groups Amount</TableCell>
+                    <TableCell style={{fontWeight: "bold"}} align="left">Players Per Group</TableCell>
                     <TableCell style={{fontWeight: "bold"}} align="left">Game Time</TableCell>
                     <TableCell style={{fontWeight: "bold"}} align="left">Game Status</TableCell>
                     <TableCell align="left"></TableCell>

@@ -128,8 +128,8 @@ const BuildGame = (props) => {
                     <Grid container item xs={12} spacing={0}>
                         <Grid item>
                             <FormControl size="small" variant="outlined" className={classes.formControl}>
-                                <InputLabel shrink={true} htmlFor="outlined-age-native-simple" >Groups Amount</InputLabel>
-                                <Select value={game.groupsAmount} onChange={e => setGame({...game, groupsAmount: e.target.value})} native label="District" inputProps={{ className: classes.groupAmount }} input={ <OutlinedInput notched labelWidth={115}/>} >
+                                <InputLabel shrink={true} htmlFor="outlined-age-native-simple" >Players Per Group</InputLabel>
+                                <Select value={game.groupsAmount} onChange={e => setGame({...game, groupsAmount: e.target.value})} native label="District" inputProps={{ className: classes.groupAmount }} input={ <OutlinedInput notched labelWidth={133}/>} >
                                     <option value="" disabled hidden>&nbsp;</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
