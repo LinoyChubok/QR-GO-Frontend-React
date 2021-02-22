@@ -161,7 +161,7 @@ const handlePrint = () => {
         <DialogContent>
           <DialogContentText>
 
-          <Button className={classes.deleteButton} autoFocus onClick={handleClose} variant="outlined" color="primary">
+          <Button className={classes.deleteButton} autoFocus onClick={() => props.removeMarker(challenge.index)} variant="outlined" color="primary">
               <DeleteIcon/>
           </Button>
           <Button className={classes.closeButton} autoFocus onClick={handleClose} variant="outlined" color="primary" >

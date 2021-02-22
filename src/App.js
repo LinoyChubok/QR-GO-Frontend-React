@@ -14,9 +14,7 @@ const App = ( {children} ) => {
   const [bgColor, SetBgColor] = useState();
   const [headerMode, SetHeaderMode] = useState();
   const [user] = useLocalStorage('user');
-  
-  const matches = useMediaQuery('(max-width:800px)');
-  console.log(matches)
+  const isMobile = useMediaQuery('(max-width:800px)');
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -58,7 +56,7 @@ const App = ( {children} ) => {
         </div>
       );
     }
-  return matches ? mobileUI() : desktopUI()
+  return isMobile ? mobileUI() : desktopUI()
 }
 
 export default App;

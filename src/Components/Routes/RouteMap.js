@@ -33,6 +33,14 @@ console.log(markers)
     ]));
   }
 
+  const handleRemoveMarker = (markerIndex) => {
+    console.log("markerIndexinRouteMap", markerIndex)
+    console.log("markers", markers)
+    setMarkers(prevState => (
+      prevState.filter((marker, i) => marker.options.index !== markerIndex)
+  ))
+  }
+
   return( 
         <div className={classes.challengesContainer}>
           <MapContainer center={[32.0461, 34.8516]} zoom={7} scrollWheelZoom={true} className={classes.map}>
@@ -42,7 +50,7 @@ console.log(markers)
               maxZoom='18'
               accessToken= 'pk.eyJ1Ijoic2FnaWNodSIsImEiOiJja2o3b3A4bGc2am5uMnNsYng0Yzg2dm9uIn0.rzN5tPVzLIflz5KXP1yPYw'
             />
-          <MapMarkers markers={markers} addMarker={handleNewMarker} routeMode={props.routeMode} currentRoute={props.currentRoute}/>
+          <MapMarkers markers={markers} addMarker={handleNewMarker} removeMarker={handleRemoveMarker} routeMode={props.routeMode} currentRoute={props.currentRoute}/>
         </MapContainer>
       </div>
   );   
