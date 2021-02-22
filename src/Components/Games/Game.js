@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import SettingsIcon from '@material-ui/icons/Settings';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { Link } from 'react-router-dom'
@@ -47,7 +47,7 @@ const Game = (props) => {
       props.onClickDeleteBtn(props.game.id);
     };
 
-    const activeGames = () => {
+    const pregame = () => {
       return (
         <StyledTableRow key={props.game.id}>
             <StyledTableCell component="th" scope="row">{props.game.createdAt}</StyledTableCell>
@@ -63,7 +63,7 @@ const Game = (props) => {
               </Link>
               <Link to={`/game?id=${props.game.id}`}>
                 <IconButton className={classes.gameButton} size="small">
-                    <EditIcon />
+                    <SettingsIcon />
                 </IconButton>
               </Link>
               <IconButton className={classes.gameButton} onClick={deleteBtn} size="small">
@@ -73,7 +73,7 @@ const Game = (props) => {
         </StyledTableRow>
       );
     }
-    const pastGames = () => {
+    const endgame = () => {
       return (
         <StyledTableRow key={props.game.id}>
             <StyledTableCell component="th" scope="row">{props.game.createdAt}</StyledTableCell>
@@ -91,8 +91,20 @@ const Game = (props) => {
         </StyledTableRow>
       );
     }
+    const ingame = () => {
+      return (
+        <StyledTableRow key={props.game.id}>
+            <StyledTableCell component="th" scope="row">{props.game.createdAt}</StyledTableCell>
+            <StyledTableCell align="left"> {props.game.route.routeName} </StyledTableCell>
+            <StyledTableCell align="left"> {props.game.groupsAmount} </StyledTableCell>
+            <StyledTableCell align="left"> {`${props.game.gameTime.hours}h ${props.game.gameTime.minutes}m`} </StyledTableCell>
+            <StyledTableCell align="left"> {props.game.state} </StyledTableCell>
+            <StyledTableCell className={classes.singleButton} align="left"></StyledTableCell>
+        </StyledTableRow>
+      );
+    }
 
-    return gameStatus === "Pregame" ? activeGames() : pastGames();
+    return gameStatus === "Pregame" ? pregame() : (gameStatus === "Endgame" ? endgame() : ingame());
     
   }
   export default Game;

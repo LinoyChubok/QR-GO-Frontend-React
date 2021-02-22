@@ -167,7 +167,8 @@ const Lobby = (props) => {
 
     const handleStartGame = (e) => {
       e.preventDefault();
-      socket.emit('startGame', { room: game.gameId }, (error) => {
+
+      socket.emit('startGame', { room: game.id }, (error) => {
         if (error) {
          alert(error)
         }

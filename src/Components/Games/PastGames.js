@@ -89,7 +89,7 @@ const PastGames = (props) => {
         <Table aria-label="customized table">
             <TableHead>
                 <TableRow>
-                    <TableCell style={{fontWeight: "bold"}} align="left">Created</TableCell>
+                    <TableCell style={{fontWeight: "bold"}} align="left">Date</TableCell>
                     <TableCell style={{fontWeight: "bold"}} align="left">Route</TableCell>
                     <TableCell style={{fontWeight: "bold"}} align="left">Players Per Group</TableCell>
                     <TableCell style={{fontWeight: "bold"}} align="left">Game Time</TableCell>
