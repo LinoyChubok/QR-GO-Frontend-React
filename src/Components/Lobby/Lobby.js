@@ -112,6 +112,7 @@ const Lobby = (props) => {
     const [game, setGame] = useState({id: "", route: "", createdAt: "", gameTimeHours: "",  gameTimeMinutes: "", groupsAmount: "", gamePin: "", state: ""});
     const [players, setPlayers] = useState([]);
     const [playersCount, setPlayersCount] = useState(0);
+    const [title, setTitle] = useState("Uh-oh! Something went wrong");
     const [error, setError] = useState("Unfortunately, QR GO has stopped working because of an unexpected error. We're sorry for the inconvenience!");
     const [open, setOpen] = useState(false);
 
@@ -170,7 +171,14 @@ const Lobby = (props) => {
 
       socket.emit('startGame', { room: game.id }, (error) => {
         if (error) {
-         alert(error)
+          if(error === 'Start')
+          {
+            setTitle("Game Started");
+            setError("The game is running at the moment, please stay alert and available in case of an emergency");
+            setOpen(true);
+          }
+          else
+            alert(error)
         }
       });    
     }
@@ -206,7 +214,7 @@ const Lobby = (props) => {
          open={open}
          aria-labelledby="alert-dialog-title"
          aria-describedby="alert-dialog-description">
-         <DialogTitle id="alert-dialog-title">{"Uh-oh! Something went wrong"}</DialogTitle>
+         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
          <DialogContent>
            <DialogContentText id="alert-dialog-description">
              {error}

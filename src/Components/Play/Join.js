@@ -103,6 +103,10 @@ const Join = (props) => {
         window.location.assign(`${site_url}/join`);
       });
 
+      socket.on("gameStarted", () => {
+        window.location.assign(`${site_url}/play`);
+      });
+      
     }, []);
 
     const handleJoinGame = (e) => {
