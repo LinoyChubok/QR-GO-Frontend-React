@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import io from "socket.io-client";
+import moment from 'moment'
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import ribbon from '../../Images/ribbon.svg'
 import MobileStepper from '@material-ui/core/MobileStepper';
+import Countdown from 'react-countdown';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+// const ENDPOINT = 'https://qr-go.herokuapp.com/';
+const ENDPOINT = 'http://localhost:3000/';
+let socket;
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -86,31 +97,94 @@ const useStyles = makeStyles((theme) => ({
   
 }));
 
-const PlayGame = (props) => {
-    const [activeStep, setActiveStep] = useState(3);
 
+const PlayGame = (props) => {
+    const [open, setOpen] = useState(false);
+    
+    const [gameData, setGameData] = useState({ groupName: "", clue: "", currentChallenge: null, challenges: null , endTime: null});
+
+    console.log(gameData);
+
+    useEffect(() => { 
+
+      socket = io(ENDPOINT);
+
+      socket.emit('playerJoinGame', { id: props.user._id }, (error) => {
+        if (error) {
+          setOpen(true);
+        }
+      });   
+      
+      return () => {
+        socket.emit('disconnect');
+        socket.off();
+      }
+    }, []);
+
+
+    useEffect(() => {
+      socket.on("gameData", ({ data }) => {
+        setGameData(data)
+      });
+      
+    }, []);
 
     const classes = useStyles();
 
+    // Random component
+    const Completionist = () => <Typography className={classes.time}>TIME'S UP</Typography>;
+    
+    // 
+
+    // Renderer callback with condition
+    const renderer = ({ hours, minutes, seconds, completed }) => {
+      if (completed) {
+        // Render a completed state
+        return <Completionist />;
+      } else {
+        // Render a countdown
+        return <Typography className={classes.time}>Remaining Time: {hours}:{minutes}:{seconds}</Typography>;
+      }
+    };
+
+    const play = () => {
       return (
-        <div className={classes.wrapper}>
-            <Paper elevation={3} className={classes.container}>
-                <Typography className={classes.time}>Remaining Time: 01:24:05</Typography>
-                <div className={classes.ribbon}>
-                    <Typography className={classes.groupName}>Group A</Typography>
-                </div>
-                <Typography className={classes.clue}>clue</Typography>
+      <div className={classes.wrapper}>
+        <Paper elevation={3} className={classes.container}>
+            <div className={classes.ribbon}>
+                <Typography className={classes.groupName}> {gameData.groupName} </Typography>
+            </div>
+            <Typography className={classes.clue}> {gameData.clue} </Typography>
 
-                <div className={classes.stepperContainer}>
-                    <MobileStepper className={classes.stepper} steps={6} variant="progress" activeStep={activeStep} position="static" backButton={null} nextButton={null}
-                    LinearProgressProps={{ className: classes.linearProgress }}/>
-                    <Typography className={classes.challengesCounter}>1 / 4</Typography>
-                </div>
-            </Paper>
-        </div>    
+            <div className={classes.stepperContainer}>
+                <MobileStepper className={classes.stepper} steps={gameData.challenges} variant="progress" activeStep={gameData.currentChallenge - 1} position="static" backButton={null} nextButton={null}
+                LinearProgressProps={{ className: classes.linearProgress }}/>
+                <Typography className={classes.challengesCounter}> {gameData.currentChallenge} / {gameData.challenges}</Typography>
+            </div>
+        </Paper>
+        
+        <Countdown date={moment(gameData.endTime).format('YYYY/MM/DD')} renderer={renderer}/>
+      </div>);   
+    }
+
+    const errorPlay = () => {
+      return (
+        <>
+         <Dialog
+         open={open}
+         aria-labelledby="alert-dialog-title"
+         aria-describedby="alert-dialog-description">
+         <DialogTitle id="alert-dialog-title">{"Uh-oh! Something went wrong"}</DialogTitle>
+         <DialogContent>
+           <DialogContentText id="alert-dialog-description">
+             {"Unfortunately, QR GO has stopped working because of an unexpected error. We're sorry for the inconvenience!"}
+           </DialogContentText>
+         </DialogContent>
+       </Dialog>   
+       </> 
       );
-  
+    }
 
-
+    return open ? errorPlay() : play();
   }
   export default PlayGame;

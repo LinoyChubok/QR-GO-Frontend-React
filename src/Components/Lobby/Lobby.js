@@ -8,11 +8,12 @@ import Button from '@material-ui/core/Button';
 import PersonIcon from '@material-ui/icons/Person';
 import styled, { keyframes } from 'styled-components';
 import { fadeIn, bounceIn } from 'react-animations'
+import Tooltip from '@material-ui/core/Tooltip';
+
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Tooltip from '@material-ui/core/Tooltip';
 
 // const ENDPOINT = 'https://qr-go.herokuapp.com/';
 const ENDPOINT = 'http://localhost:3000/';
@@ -112,6 +113,7 @@ const Lobby = (props) => {
     const [game, setGame] = useState({id: "", route: "", createdAt: "", gameTimeHours: "",  gameTimeMinutes: "", groupsAmount: "", gamePin: "", state: ""});
     const [players, setPlayers] = useState([]);
     const [playersCount, setPlayersCount] = useState(0);
+
     const [title, setTitle] = useState("Uh-oh! Something went wrong");
     const [error, setError] = useState("Unfortunately, QR GO has stopped working because of an unexpected error. We're sorry for the inconvenience!");
     const [open, setOpen] = useState(false);
@@ -207,6 +209,7 @@ const Lobby = (props) => {
         </div>    
       );
     }
+
     const errorLobby = () => {
       return (
         <>
@@ -224,6 +227,7 @@ const Lobby = (props) => {
        </> 
       );
     }
+
     return open ? errorLobby() : lobby();
   }
   export default Lobby;
