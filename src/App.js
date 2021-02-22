@@ -23,7 +23,7 @@ const App = ( {children} ) => {
       }
       else if(user.role === 'admin' && 
       ((currentPath === '/games' || currentPath === '/games/') || (currentPath === '/game' || currentPath === '/game/') ||
-       (currentPath === '/routes' || currentPath === '/routes/') || (currentPath === '/route' || currentPath === '/route/'))){
+       (currentPath === '/routes' || currentPath === '/routes/') || (currentPath === '/route' || currentPath === '/route/') || (currentPath === '/statistics' || currentPath === '/statistics/'))){
         SetHeaderMode("AdminHeader");
         SetBgColor('#f2edf3');
       } else {
