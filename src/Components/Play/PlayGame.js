@@ -127,20 +127,11 @@ const PlayGame = (props) => {
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState("play");
 
-    const [gameData, setGameData] = useState({ groupName: "", clue: "", currentChallenge: null, challenges: null , endTime: null});
+    const [gameData, setGameData] = useState({ groupName: "", clue: "", currentChallenge: 1, challenges: 1 , endTime: null});
 
     useEffect(() => { 
-
       socket = io(ENDPOINT);
-
-      socket.emit('playerJoinGame', { id: props.user._id }, (error) => {
-        if (error) {
-          console.log(error);
-          setOpen(true);
-          setMode("error");
-        }
-      });   
-      
+  
       return () => {
         socket.emit('disconnect');
         socket.off();
@@ -150,13 +141,17 @@ const PlayGame = (props) => {
 
     useEffect(() => {
       socket.on("gameData", ({ data }) => {
+        console.log(data);
         setGameData(data)
       });
 
-      socket.on("test", () => {
-        alert("test");
-      });
-      
+      socket.emit('playerJoinGame', { id: props.user._id }, (error) => {
+        if (error) {
+          setOpen(true);
+          setMode("error");
+        }
+      });   
+ 
     }, []);
 
     const classes = useStyles();
