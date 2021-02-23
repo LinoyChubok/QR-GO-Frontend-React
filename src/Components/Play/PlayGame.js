@@ -14,8 +14,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-// const ENDPOINT = 'https://qr-go.herokuapp.com/';
-const ENDPOINT = 'http://localhost:3000/';
+const ENDPOINT = 'https://qr-go.herokuapp.com/';
+// const ENDPOINT = 'http://localhost:3000/';
 let socket;
 
 const useStyles = makeStyles((theme) => ({

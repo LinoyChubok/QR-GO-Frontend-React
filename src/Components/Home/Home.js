@@ -5,8 +5,8 @@
         import { makeStyles } from '@material-ui/core/styles';
         import sideImage from '../../Images/ipad-iphone-qrgo.png'
 
-        //const site_url = "https://qr-go.netlify.app";
-        const site_url = "http://localhost:3000";
+        const site_url = "https://qr-go.netlify.app";
+        //const site_url = "http://localhost:3000";
         
         const service_url = "https://qr-go.herokuapp.com";
         //const service_url = "http://localhost:3000";

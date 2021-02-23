@@ -5,11 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 
-// const ENDPOINT = 'https://qr-go.herokuapp.com';
-const ENDPOINT = 'http://localhost:3000';
+const ENDPOINT = 'https://qr-go.herokuapp.com';
+// const ENDPOINT = 'http://localhost:3000';
 
-//const site_url = "https://qr-go.netlify.app";
-const site_url = "http://localhost:3001";
+const site_url = "https://qr-go.netlify.app";
+// const site_url = "http://localhost:3001";
 
 let socket;
 
