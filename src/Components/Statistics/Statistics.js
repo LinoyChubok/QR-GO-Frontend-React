@@ -61,79 +61,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Statistics = (props) => {
     const classes = useStyles();
-    // const gameData = [
-    // {
-    //     name: "Challenge 1",
-    //     Group_1: 10,
-    //     Group_2: 12,
-    //     Group_3: 15
-    // },
-    // {
-    //     name: "Challenge 2",
-    //     Group_1: 22,
-    //     Group_2: 13,
-    //     Group_3: 17
-    // },
-    // {
-    //     name: "Challenge 3",
-    //     Group_1: 18,
-    //     Group_2: 7,
-    //     Group_3: 12
-    // },
-    // {
-    //     name: "Challenge 4",
-    //     Group_1: 9,
-    //     Group_2: 12,
-    //     Group_3: 11
-    // },
-    // {
-    //     name: "Challenge 5",
-    //     Group_1: 30,
-    //     Group_2: 14,
-    //     Group_3: 21
-    // },
-    // {
-    //     name: "Challenge 6",
-    //     Group_1: 20,
-    //     Group_2: 14,
-    //     Group_3: 23
-    // },
-    // {
-    //     name: "Challenge 7",
-    //     Group_1: 12,
-    //     Group_2: 5,
-    //     Group_3: 12
-    // },
-    // {
-    //     name: "Challenge 8",
-    //     Group_1: 5,
-    //     Group_2: 5,
-    //     Group_3: 10
-    // },
-    // {
-    //     name: "Challenge 9",
-    //     Group_1: 16,
-    //     Group_2: 14,
-    //     Group_3: 12,
-    // },
-    // {
-    //     name: "Challenge 10",
-    //     Group_1: 12,
-    //     Group_2: 5,
-    //     Group_3: 16,
-    // },
-    // ];
-
-    // let groups = [{ "groupName":"Group_1"}, { "groupName":"Group_2"},{ "groupName":"Group_3"},];
-
     const [gameData, setGameData] = useState([]);
     const [groupsOnGame, setGroupsOnGame] = useState([]);
 
     const value = queryString.parse(props.location.search);
     const gameId = value.id;
-
-    console.log(gameData)
-    console.log(groupsOnGame)
 
 
     useEffect(() => { 
