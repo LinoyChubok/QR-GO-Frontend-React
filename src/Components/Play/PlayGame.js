@@ -92,11 +92,11 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: '300px',
+    width: '25vw',
     backgroundColor: 'white',
   },
   linearProgress: {
-    width: '15vw',
+    width: '100%',
   },
   challengesCounter: {
     textAlign: 'center',
@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     backgroundColor: '#693fd3',
     color: 'white',
-    width: '15vw',
+    width: '50px',
     height: '80px',
     margin: 'auto',
     padding: '10px',
