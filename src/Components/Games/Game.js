@@ -82,7 +82,7 @@ const Game = (props) => {
             <StyledTableCell align="left"> {`${props.game.gameTime.hours}h ${props.game.gameTime.minutes}m`} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.state} </StyledTableCell>
             <StyledTableCell className={classes.singleButton} align="left">
-              <Link to={'/statistics'} target="_blank">
+              <Link to={`/statistics?id=${props.game.id}`}>
                 <IconButton className={classes.gameButton} size="small">
                   <BarChartIcon />
                 </IconButton>
