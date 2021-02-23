@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import ribbon from '../../Images/ribbon.svg'
+import trophy from '../../Images/trophy.svg'
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Countdown from 'react-countdown';
 
@@ -51,6 +52,17 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     marginTop: '20px',
   },
+  trophy: {
+    position: 'relative',
+    backgroundImage:`url(${trophy})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundPosition: 'center',
+    width: '180px',
+    height: '180px ',
+    margin: 'auto',
+    marginTop: '60px',
+  },
   groupName: {
     position: 'absolute',
     textAlign: 'center',
@@ -94,13 +106,27 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '18px',
     fontWeight: 'bold',
   },
+  gameWinner: {
+    whiteSpace: 'pre-line',
+    textAlign: 'center',
+    fontSize: '20px',
+    fontWeight: 'bold',
+    backgroundColor: '#693fd3',
+    color: 'white',
+    width: '300px',
+    height: '80px',
+    margin: 'auto',
+    padding: '10px',
+    borderRadius: '10px'
+  },
   
 }));
 
 
 const PlayGame = (props) => {
     const [open, setOpen] = useState(false);
-    
+    const [mode, setMode] = useState("play");
+
     const [gameData, setGameData] = useState({ groupName: "", clue: "", currentChallenge: null, challenges: null , endTime: null});
 
     useEffect(() => { 
@@ -111,6 +137,7 @@ const PlayGame = (props) => {
         if (error) {
           console.log(error);
           setOpen(true);
+          setMode("error");
         }
       });   
       
@@ -133,7 +160,6 @@ const PlayGame = (props) => {
     // Random component
     const Completionist = () => <Typography className={classes.time}>TIME'S UP</Typography>;
     
-    // 
 
     // Renderer callback with condition
     const renderer = ({ hours, minutes, seconds, completed }) => {
@@ -165,6 +191,16 @@ const PlayGame = (props) => {
       </div>);   
     }
 
+    const results = () => {
+      return (
+      <div className={classes.wrapper}>
+        <Paper elevation={3} className={classes.container}>
+        <div className={classes.trophy}></div>
+            <Typography className={classes.gameWinner}>Game Winner {"\n"} Group_1</Typography>
+        </Paper>
+      </div>);   
+    }
+
     const errorPlay = () => {
       return (
         <>
@@ -183,6 +219,7 @@ const PlayGame = (props) => {
       );
     }
 
-    return open ? errorPlay() : play();
+    return mode==="play" ? play() : (mode==="error" ? errorPlay() : results())
+
   }
   export default PlayGame;

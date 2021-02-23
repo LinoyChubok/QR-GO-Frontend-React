@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import medal from '../../Images/gold-medal.png'
+import trophy from '../../Images/trophy.svg'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import randomColor from "randomcolor";
 
@@ -21,16 +21,16 @@ const useStyles = makeStyles((theme) => ({
         width: '85vw',
         minHeight: '400px'
       },
-    medal: {
+      trophy: {
         position: 'relative',
-        backgroundImage:`url(${medal})`,
+        backgroundImage:`url(${trophy})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
-        width: '150px',
-        height: '150px ',
+        width: '180px',
+        height: '180px ',
         margin: 'auto',
-        marginTop: '40px',
+        marginTop: '100px',
       },
       gameWinner: {
         whiteSpace: 'pre-line',
@@ -138,7 +138,7 @@ const Statistics = () => {
       return (
         <div className={classes.wrapper}>
             <div className={classes.container}>
-                <div className={classes.medal}></div>
+                <div className={classes.trophy}></div>
                 <Typography className={classes.gameWinner}>Game Winner {"\n"} Group_1</Typography>
                 <div className={classes.chartContainer}>
                     <LineChart width={1000} height={300} data={gameData} margin={{ top: 5, right: 60, left: 0, bottom: 5 }} className={classes.lineChart}  >
