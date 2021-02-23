@@ -63,17 +63,17 @@ const Statistics = (props) => {
     const classes = useStyles();
     const [gameData, setGameData] = useState([]);
     const [groupsOnGame, setGroupsOnGame] = useState([]);
-
+    const [gameWinner, setGameWinner] = useState();
     const value = queryString.parse(props.location.search);
     const gameId = value.id;
 
-
     useEffect(() => { 
         fetchData();
+        fetchWinner();
       }, []);
     
       const fetchData = async () => {
-        let data =[];
+        let data;
         try {
           data = await fetch(`https://qr-go.herokuapp.com/api/statistics/${gameId}`).then(res => res.json());
         } catch(err) {
@@ -81,6 +81,16 @@ const Statistics = (props) => {
         }
         setGameData(data.data.gameData);
         setGroupsOnGame(data.data.groupsOnGame);
+      }
+
+      const fetchWinner = async () => {
+        let data;
+        try {
+          data = await fetch(`https://qr-go.herokuapp.com/api/games/${gameId}`).then(res => res.json());
+        } catch(err) {
+          console.log("error where fetching data");
+        }
+        setGameWinner(data.game.winner);
       }
 
     const eachGroup = (group, index) => {
@@ -92,7 +102,7 @@ const Statistics = (props) => {
         <div className={classes.wrapper}>
             <div className={classes.container}>
                 <div className={classes.trophy}></div>
-                <Typography className={classes.gameWinner}>Game Winner {"\n"} Group_1</Typography>
+                <Typography className={classes.gameWinner}>Game Winner {"\n"} {gameWinner}</Typography>
                 <div className={classes.chartContainer}>
                     <LineChart width={1000} height={300} data={gameData} margin={{ top: 5, right: 60, left: 0, bottom: 5 }} className={classes.lineChart}  >
                         <CartesianGrid strokeDasharray="3 3" />
