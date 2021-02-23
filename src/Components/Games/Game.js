@@ -35,6 +35,9 @@ import TableRow from '@material-ui/core/TableRow';
   },
   singleButton: {
     paddingRight: 116,
+  },
+  withoutButton: {
+    paddingRight: 166,
   }
 }));
 
@@ -99,7 +102,7 @@ const Game = (props) => {
             <StyledTableCell align="left"> {props.game.groupsAmount} </StyledTableCell>
             <StyledTableCell align="left"> {`${props.game.gameTime.hours}h ${props.game.gameTime.minutes}m`} </StyledTableCell>
             <StyledTableCell align="left"> {props.game.state} </StyledTableCell>
-            <StyledTableCell className={classes.singleButton} align="left"></StyledTableCell>
+            <StyledTableCell className={classes.withoutButton} align="left"></StyledTableCell>
         </StyledTableRow>
       );
     }
