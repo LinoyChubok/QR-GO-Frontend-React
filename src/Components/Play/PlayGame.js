@@ -126,21 +126,13 @@ const useStyles = makeStyles((theme) => ({
 const PlayGame = (props) => {
     const [open, setOpen] = useState(false);
     const [mode, setMode] = useState("play");
+    const [winner, setWinner] = useState('');
 
-    const [gameData, setGameData] = useState({ groupName: "", clue: "", currentChallenge: null, challenges: null , endTime: null});
+    const [gameData, setGameData] = useState({ groupName: "", clue: "", currentChallenge: 1, challenges: 1 , endTime: null});
 
     useEffect(() => { 
-
       socket = io(ENDPOINT);
-
-      socket.emit('playerJoinGame', { id: props.user._id }, (error) => {
-        if (error) {
-          console.log(error);
-          setOpen(true);
-          setMode("error");
-        }
-      });   
-      
+  
       return () => {
         socket.emit('disconnect');
         socket.off();
@@ -149,10 +141,23 @@ const PlayGame = (props) => {
 
 
     useEffect(() => {
+      socket.on("gameWinner", ({ winner }) => {
+        setWinner(winner);
+        setMode("results");
+      });
+
       socket.on("gameData", ({ data }) => {
+        console.log(data);
         setGameData(data)
       });
-      
+
+      socket.emit('playerJoinGame', { id: props.user._id }, (error) => {
+        if (error) {
+          setOpen(true);
+          setMode("error");
+        }
+      });   
+ 
     }, []);
 
     const classes = useStyles();
@@ -196,7 +201,7 @@ const PlayGame = (props) => {
       <div className={classes.wrapper}>
         <Paper elevation={3} className={classes.container}>
         <div className={classes.trophy}></div>
-            <Typography className={classes.gameWinner}>Game Winner {"\n"} Group_1</Typography>
+            <Typography className={classes.gameWinner}>Game Winner {"\n"} {winner}</Typography>
         </Paper>
       </div>);   
     }
