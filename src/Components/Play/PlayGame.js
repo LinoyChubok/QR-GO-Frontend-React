@@ -87,7 +87,6 @@ const useStyles = makeStyles((theme) => ({
   stepperContainer: {
     marginTop: '20px',
     marginBottom: '10px'
-
   },
   stepper: {
     position: 'relative',
@@ -97,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
   },
   linearProgress: {
-    width: '100%',
+    width: '15vw',
   },
   challengesCounter: {
     textAlign: 'center',
@@ -113,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     backgroundColor: '#693fd3',
     color: 'white',
-    width: '300px',
+    width: '15vw',
     height: '80px',
     margin: 'auto',
     padding: '10px',
