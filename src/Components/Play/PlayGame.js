@@ -125,6 +125,10 @@ const PlayGame = (props) => {
       socket.on("gameData", ({ data }) => {
         setGameData(data)
       });
+
+      socket.on("test", () => {
+        alert("test");
+      });
       
     }, []);
 
