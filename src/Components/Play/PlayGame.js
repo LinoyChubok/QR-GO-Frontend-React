@@ -112,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     backgroundColor: '#693fd3',
     color: 'white',
-    width: '50px',
+    width: '150px',
     height: '80px',
     margin: 'auto',
     padding: '10px',
