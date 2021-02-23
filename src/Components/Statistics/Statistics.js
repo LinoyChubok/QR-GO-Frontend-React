@@ -133,6 +133,9 @@ const Statistics = (props) => {
     const gameId = value.id;
 
     console.log(gameData)
+    console.log(groupsOnGame)
+
+
     useEffect(() => { 
         fetchData();
       }, []);
@@ -144,10 +147,8 @@ const Statistics = (props) => {
         } catch(err) {
           console.log("error where fetching data");
         }
-        setGameData([data.gameData]);
-        setGroupsOnGame([data.groupsOnGame]);
-        // data.games.map(route => add({id: route._id, routeName: route.routeName, district: route.district, image: route.image, description: route.description, challengesAmount: route.challengesAmount}))
-        // data.games.map(game => add({id: game._id, route: game.route, createdAt: moment(game.createdAt).format('YYYY/MM/DD'), gameTime: game.gameTime, groupsAmount: game.groupsAmount, gamePin: game.gamePin, state: game.state}))
+        setGameData(data.data.gameData);
+        setGroupsOnGame(data.data.groupsOnGame);
       }
 
     const eachGroup = (group, index) => {
